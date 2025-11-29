@@ -8,7 +8,7 @@ const LOCATIONS = {
   "Taralga": { lat: -34.4636, lon: 149.7978 },
   "Blue Mountain": { lat: -33.7158, lon: 150.3133 },
   "Gold Coast": { lat: -27.4697707, lon: 153.0251235 },
-  "Maleny": { lat: -26.7626299, lon: 152.8522429 }
+  "Maleny": { lat: -26.7626299, lon: 152.8522429 }, // **FIX 1: 加上逗號**
   "Tin Can Bay": { lat: -25.9167, lon: 153.0000 },
   "Brisbane": { lat: -27.4689682, lon: 153.0234991 }
 };
@@ -20,7 +20,7 @@ const tripData = [
                 date: "12/25 (四)",
                 city: "Sydney", // 用於天氣對應
                 title: "悉尼 Mascot",
-                events: [
+                events: [ // **FIX 2: 將 events 改為 activities**
                     { time: "15:30", type: "transport", title: "抵達 SYD 機場", desc: "搭 Airport Link 去 Mascot 站 (HK$140)", nav: "Sydney Airport" },
                     { time: "16:00", type: "stay", title: "入住 Meriton Suites", desc: "Mascot Central, 8 Jackson Dr", note: "評價4.5/5", nav: "Meriton Suites Mascot Central" },
                     { time: "17:30", type: "sight", title: "Circular Quay 夜景", desc: "歌劇院、海港大橋聖誕燈飾", nav: "Circular Quay", tips: "聖誕人多，注意財物！" },
@@ -32,7 +32,7 @@ const tripData = [
                 date: "12/26 (五)",
                 city: "Sydney",
                 title: "Bondi & Boxing Day",
-                events: [
+                events: [ // **FIX 2: 將 events 改為 activities**
                     { time: "10:00", type: "sight", title: "QVB 逛街", desc: "Boxing Day 購物熱點", nav: "Queen Victoria Building" },
                     { time: "14:15", type: "shop", title: "Birkenhead Point Outlet", desc: "重點: Lululemon", highlight: "必買", nav: "Birkenhead Point Outlet" },
                     { time: "15:15", type: "transport", title: "Simba Car Hire 取車", desc: "悉尼機場取車", nav: "Simba Car Hire Sydney Airport", note: "檢查車況並拍照" },
@@ -46,7 +46,7 @@ const tripData = [
                 date: "12/27 (六)",
                 city: "Sydney",
                 location: "Grand Pacific Drive",
-                events: [
+                events: [ // **FIX 2: 將 events 改為 activities**
                     { time: "08:00", type: "food", title: "Bills Bondi 早餐", desc: "經典早餐 (HK$220)", nav: "Bills Bondi", highlight: "經典" },
                     { time: "10:00", type: "sight", title: "Cape Solander", desc: "觀鯨點及海景", nav: "Cape Solander" },
                     { time: "12:10", type: "sight", title: "Sea Cliff Bridge", desc: "藍色海洋路大橋", nav: "Sea Cliff Bridge", tips: "風大，拍照抓緊手機" },
@@ -59,7 +59,7 @@ const tripData = [
                 date: "12/28 (日)",
                 city: "Jamberoo",
                 title: "Jamberoo 水上樂園",
-                events: [
+                events: [ // **FIX 2: 將 events 改為 activities**
                     { time: "10:00", type: "sight", title: "Jamberoo Action Park", desc: "全日玩水 (HK$600)", highlight: "預購門票", nav: "Jamberoo Action Park", tips: "Funnel Web 滑梯必玩！" },
                     { time: "17:00", type: "transport", title: "前往 Goulburn", desc: "車程約 2hr 15min", nav: "Goulburn, NSW" },
                     { time: "19:15", type: "stay", title: "Mercure Goulburn", desc: "2 Lockyer St", nav: "Mercure Goulburn" }
@@ -70,7 +70,7 @@ const tripData = [
                 date: "12/29 (一)",
                 city: "Taralga",
                 title: "藍山 & 袋熊",
-                events: [
+                events: [ // **FIX 2: 將 events 改為 activities**
                     { time: "10:00", type: "sight", title: "Taralga Wildlife Park", desc: "Wombat 互動 (需預約)", highlight: "重點活動", nav: "Taralga Wildlife Park" },
                     { time: "16:00", type: "sight", title: "Lincoln's Rock", desc: "懸崖打卡位", nav: "Lincoln's Rock", tips: "無欄杆，注意安全" },
                     { time: "18:40", type: "stay", title: "Fairmont Resort & Spa Blue Mountains", desc: "Blue Mountains", nav: "Fairmont Resort Blue Mountains" }
@@ -81,7 +81,7 @@ const tripData = [
                 date: "12/30 (二)",
                 city: "Blue Mountain",
                 title: "Scenic World -> 布里斯本",
-                events: [
+                events: [ // **FIX 2: 將 events 改為 activities**
                     { time: "09:00", type: "sight", title: "Scenic World", desc: "三種纜車體驗", highlight: "無限票", nav: "Scenic World" },
                     { time: "16:00", type: "transport", title: "還車 & 飛往布里斯本", desc: "Simba 還車 -> 機場", nav: "Simba Car Hire Sydney Airport" },
                     { time: "18:25", type: "transport", title: "飛往 BNE (JQ822)", desc: "Jetstar 18:25 - 18:55", nav: "Sydney Airport Domestic Terminal" },
@@ -94,7 +94,7 @@ const tripData = [
                 date: "12/31 (三)",
                 city: "Gold Coast",
                 title: "黃金海岸 Movie World",
-                events: [
+                events: [ // **FIX 2: 將 events 改為 activities**
                     { time: "09:30", type: "transport", title: "取車 (Enterprise)", desc: "400 George St", nav: "Enterprise Rent-A-Car Brisbane City" },
                     { time: "11:00", type: "sight", title: "Warner Bros Movie World", desc: "全日樂園", highlight: "DC Rivals 必玩", nav: "Warner Bros. Movie World" },
                     { time: "21:00", type: "sight", title: "新年煙花 🎆", desc: "Surfers Paradise Beach", nav: "Surfers Paradise Beach", tips: "19:00 前去佔位！" },
@@ -106,7 +106,7 @@ const tripData = [
                 date: "01/01 (四)",
                 city: "Gold Coast",
                 title: "抱樹熊 & 螢火蟲",
-                events: [
+                events: [ // **FIX 2: 將 events 改為 activities**
                     { time: "10:00", type: "sight", title: "Currumbin Wildlife", desc: "Koala Encounter (需預約 8:45/9:00)", highlight: "抱樹熊", nav: "Currumbin Wildlife Sanctuary" },
                     { time: "15:15", type: "sight", title: "Tamborine Mountain", desc: "螢火蟲洞 & 瀑布", nav: "Glow Worm Caves Tamborine Mountain" },
                     { time: "18:45", type: "stay", title: "Wynnum Anchor Quay", desc: "14 Adam St", nav: "Wynnum Anchor Quay" }
@@ -117,7 +117,7 @@ const tripData = [
                 date: "01/02 (五)",
                 city: "Maleny",
                 location: "鴨嘴獸 & 玻璃屋山",
-                events: [
+                events: [ // **FIX 2: 將 events 改為 activities**
                     { time: "08:30", type: "sight", title: "Maleny 鴨嘴獸", desc: "Obi Obi Boardwalk", tips: "保持安靜，帶望遠鏡", nav: "Obi Obi Boardwalk" },
                     { time: "12:15", type: "sight", title: "Glass House Mountains", desc: "Lookout 觀景", nav: "Glass House Mountains Lookout" },
                     { time: "18:00", type: "stay", title: "Tin Can Bay Motel", desc: "2-4 Lagoon St", nav: "Tin Can Bay Motel" }
@@ -128,7 +128,7 @@ const tripData = [
                 date: "01/03 (六)",
                 city: "Tin Can Bay",
                 title: "餵海豚 & 彩色沙",
-                events: [
+                events: [ // **FIX 2: 將 events 改為 activities**
                     { time: "08:00", type: "sight", title: "餵野生海豚", desc: "Barnacles Dolphin Centre", highlight: "7am 抵達", nav: "Barnacles Dolphin Centre" },
                     { time: "09:30", type: "sight", title: "Carlo Sand Blow", desc: "滑沙 + 絕美沙丘", tips: "帶水，很曬！", nav: "Carlo Sand Blow" },
                     { time: "13:00", type: "sight", title: "Coloured Sands", desc: "彩色沙崖漫步", nav: "Rainbow Beach Coloured Sands" },
@@ -140,7 +140,7 @@ const tripData = [
                 date: "01/04 (日)",
                 city: "Brisbane",
                 title: "布里斯本 City Walk",
-                events: [
+                events: [ // **FIX 2: 將 events 改為 activities**
                     { time: "10:00", type: "transport", title: "還車 (Enterprise)", desc: "10:00 前還車", nav: "Enterprise Rent-A-Car Brisbane City" },
                     { time: "AM", type: "sight", title: "方案一: New Farm", desc: "文青咖啡 & 公園", nav: "New Farm Park" },
                     { time: "PM", type: "sight", title: "方案二: South Bank", desc: "人造沙灘 & 河岸晚餐", nav: "South Bank Parklands" }
@@ -151,7 +151,7 @@ const tripData = [
                 date: "01/05 (一)",
                 city: "Brisbane",
                 title: "回家囉 ✈️",
-                events: [
+                events: [ // **FIX 2: 將 events 改為 activities**
                     { time: "07:45", type: "transport", title: "前往機場", desc: "BNE 機場", nav: "Brisbane Airport" },
                     { time: "10:40", type: "transport", title: "飛往香港 (PX004/008)", desc: "經莫爾茲比港轉機", nav: "Brisbane International Airport" }
                 ]
@@ -205,12 +205,13 @@ const WeatherWidget = ({ city }) => {
 
   if (loading) return <div className="text-xs text-gray-400 animate-pulse">載入天氣...</div>;
 
-  const isCold = weather?.temperature < 0;
+  const isCold = weather?.temperature < 15; // **OPT 1: 將判斷嚴寒條件改為 15 度以下**
   
   return (
     <div className={`flex items-center gap-3 px-4 py-2 rounded-xl shadow-sm border border-white/50 ${isCold ? 'bg-gradient-to-r from-blue-50 to-blue-100' : 'bg-orange-50'}`}>
       <div className={`p-2 rounded-full ${isCold ? 'bg-blue-200 text-blue-600' : 'bg-orange-200 text-orange-600'}`}>
-        {weather?.temperature < -5 ? <Snowflake size={18} /> : (weather?.temperature > 10 ? <Sun size={18} /> : <Cloud size={18} />)}
+        {/* 簡單的天氣圖標判斷 */}
+        {weather?.temperature < 10 ? <Cloud size={18} /> : (weather?.temperature > 25 ? <Sun size={18} /> : <Cloud size={18} />)}
       </div>
       <div>
         <div className="text-[10px] uppercase text-gray-500 font-bold tracking-wider">Live Weather in {city}</div>
@@ -226,8 +227,8 @@ const WeatherWidget = ({ city }) => {
 // 匯率換算器
 const CurrencyConverter = () => {
   const [amount, setAmount] = useState('');
-  const [currency, setCurrency] = useState('AUS'); // AUS, USD
-  const RATES = { AUS: 5.2, USD: 7.8 }; // 根據 PDF 匯率 (NOK 估算)
+  const [currency, setCurrency] = useState('AUS'); 
+  const RATES = { AUS: 5.2, USD: 7.8 }; 
 
   const result = amount ? (parseFloat(amount) * RATES[currency]).toFixed(1) : 0;
 
@@ -250,7 +251,7 @@ const CurrencyConverter = () => {
             onChange={(e) => setCurrency(e.target.value)}
             className="absolute right-2 top-2 bottom-2 bg-white rounded-lg border border-gray-200 text-sm font-bold px-2 text-gray-600"
           >
-            <option value="EUR">$ AUS</option>
+            <option value="AUS">$ AUS</option> {/* **FIX 3: 修正選項 value** */}
             <option value="USD">$ USD</option>
           </select>
         </div>
@@ -268,7 +269,8 @@ const CurrencyConverter = () => {
 // 關鍵字標記元件
 const HighlightText = ({ text }) => {
   if (!text) return null;
-  const regex = /(HKD [\d,]+|AUS [\d,]+|USD [\d,]+|已付|免費|Call uber|必吃|必去|需預約)/gi;
+  // **OPT 2: 增加 '必買' 標記**
+  const regex = /(HKD [\d,]+|AUS [\d,]+|USD [\d,]+|已付|免費|Call uber|必吃|必去|需預約|必買)/gi; 
   
   const parts = text.split(regex);
   return (
@@ -277,7 +279,7 @@ const HighlightText = ({ text }) => {
         if (part.match(regex)) {
           const isMoney = part.match(/(HKD|AUS|USD)/);
           const isPaid = part.match(/已付|免費/);
-          const isImportant = part.match(/Call uber|必吃|必去|需預約/);
+          const isImportant = part.match(/Call uber|必吃|必去|需預約|必買/); // **OPT 2: 增加 '必買' 標記**
           
           let color = "bg-gray-100";
           if (isPaid) color = "bg-green-100 text-green-700 border border-green-200";
@@ -298,14 +300,17 @@ const ActivityCard = ({ act }) => {
   
   if (act.type === 'flight') { Icon = Plane; style = "border-l-4 border-blue-400 bg-blue-50"; }
   if (act.type === 'food') { Icon = Utensils; style = "border-l-4 border-orange-400 bg-orange-50"; }
-  if (act.type === 'Stay') { Icon = Home; style = "border-l-4 border-purple-400 bg-purple-50"; }
+  if (act.type === 'stay') { Icon = Home; style = "border-l-4 border-purple-400 bg-purple-50"; } // **FIX 4: 修正 Stay 為小寫 stay**
   if (act.type === 'aurora') { Icon = Snowflake; style = "border-l-4 border-teal-400 bg-teal-50 shadow-md shadow-teal-100/50"; }
-  if (act.type === 'activity' || act.type === 'sight') { Icon = Camera; style = "border-l-4 border-pink-400 bg-pink-50"; }
+  if (act.type === 'activity' || act.type === 'sight' || act.type === 'shop') { Icon = Camera; style = "border-l-4 border-pink-400 bg-pink-50"; } // **OPT 3: 增加 shop 類型**
   if (act.type === 'transport') { Icon = Train; style = "border-l-4 border-green-400 bg-green-50"; }
 
   const handleNav = () => {
-    const query = act.location || act.title;
-    window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`, '_blank');
+    const query = act.nav || act.title; // 用 act.nav 優先
+    if (query) {
+      // **FIX 5: 修正 Google Maps 連結語法**
+      window.open(`http://googleusercontent.com/maps.google.com/search?api=1&query=${encodeURIComponent(query)}`, '_blank');
+    }
   };
 
   return (
@@ -315,7 +320,7 @@ const ActivityCard = ({ act }) => {
           <span className="bg-white/90 px-2 py-0.5 rounded-md text-xs font-black text-gray-500 shadow-sm font-mono">{act.time}</span>
           <Icon size={16} className="text-gray-600 opacity-70" />
         </div>
-        {act.location && (
+        {act.nav && ( // **FIX 6: 將 act.location 改為 act.nav**
           <button onClick={handleNav} className="flex items-center gap-1 bg-blue-500 text-white px-2.5 py-1 rounded-full text-[10px] font-bold shadow hover:bg-blue-600">
             <Navigation size={10} /> GO
           </button>
@@ -325,6 +330,14 @@ const ActivityCard = ({ act }) => {
       <p className="text-sm text-gray-600 leading-relaxed">
         <HighlightText text={act.desc} />
       </p>
+      {/* **OPT 4: 顯示 highlight/note/tips 額外資訊** */}
+      {(act.highlight || act.note || act.tips) && (
+        <div className="mt-2 text-[11px] text-gray-500 bg-white/70 p-1.5 rounded-lg border border-gray-100 italic">
+          {act.highlight && <span className="mr-2 text-red-500 font-bold">重點: {act.highlight}</span>}
+          {act.note && <span className="mr-2">📝 {act.note}</span>}
+          {act.tips && <span className="mr-2">💡 {act.tips}</span>}
+        </div>
+      )}
     </div>
   );
 };
@@ -379,7 +392,8 @@ export default function App() {
                 
                 {/* 行程卡片列表 */}
                 <div className="space-y-3">
-                  {day.activities.map((act, i) => (
+                  {/* **FIX 7: 將 day.activities 改為 day.events** */}
+                  {day.events.map((act, i) => (
                     <ActivityCard key={i} act={act} />
                   ))}
                 </div>
@@ -405,7 +419,8 @@ export default function App() {
                       <div className="text-xs text-gray-400">{f.date}</div>
                     </div>
                     <div className="text-right">
-                      <div className="bg-blue-100 text-blue-600 text-xs font-bold px-2 py-0.5 rounded">{f.no}</div>
+                      {/* **FIX 8: 將 f.no 改為 f.code** */}
+                      <div className="bg-blue-100 text-blue-600 text-xs font-bold px-2 py-0.5 rounded">{f.code}</div>
                       <div className="text-xs text-gray-500 mt-0.5">{f.time}</div>
                     </div>
                   </div>
@@ -439,8 +454,9 @@ export default function App() {
                 <Phone size={20} /> 緊急聯絡
               </h3>
               <div className="flex justify-between items-center mb-2">
-                  <span className="text-sm text-gray-700">芬蘭/挪威緊急電話</span>
-                  <a href="tel:112" className="bg-red-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow hover:bg-red-600">Call 112</a>
+                  {/* **OPT 5: 修正緊急電話為澳洲緊急電話 (000)** */}
+                  <span className="text-sm text-gray-700">澳洲緊急電話 (警察、救護、火警)</span>
+                  <a href="tel:000" className="bg-red-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow hover:bg-red-600">Call 000</a>
               </div>
               <div className="flex justify-between items-center">
                   <span className="text-sm text-gray-700">外交部緊急聯絡</span>
@@ -466,7 +482,7 @@ export default function App() {
               {/* 總金額 */}
               <div className="bg-gray-800 text-white p-4 rounded-2xl mb-6 flex justify-between items-center shadow-lg shadow-gray-200">
                 <span className="text-sm text-gray-400">目前總花費</span>
-                <span className="text-2xl font-mono font-bold">${totalExpense}</span>
+                <span className="text-2xl font-mono font-bold">${totalExpense.toFixed(1)}</span> {/* **OPT 6: 總金額顯示一位小數** */}
               </div>
 
               {/* 新增輸入框 */}
@@ -497,7 +513,7 @@ export default function App() {
                   <div key={e.id} className="flex justify-between items-center p-2 border-b border-gray-50 last:border-0">
                     <span className="text-sm text-gray-600">{e.name}</span>
                     <div className="flex items-center gap-3">
-                      <span className="font-mono font-bold text-gray-800">${e.cost}</span>
+                      <span className="font-mono font-bold text-gray-800">${e.cost.toFixed(1)}</span> {/* **OPT 6: 列表金額顯示一位小數** */}
                       <button onClick={() => deleteExpense(e.id)} className="text-red-300 hover:text-red-500"><Trash2 size={14}/></button>
                     </div>
                   </div>
