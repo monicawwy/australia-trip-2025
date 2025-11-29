@@ -3,152 +3,180 @@ import { MapPin, Navigation, Calendar, Cloud, Sun, CloudSnow, Wind, Utensils, Ca
 
 // --- 1. 地點座標 (用於即時天氣 API) ---
 const LOCATIONS = {
-  "Helsinki": { lat: 60.1699, lon: 24.9384 },
-  "Rovaniemi": { lat: 66.5039, lon: 25.7294 },
-  "Inari": { lat: 68.9060, lon: 27.0275 },
-  "Kirkenes": { lat: 69.7271, lon: 30.0452 },
-  "Tromsø": { lat: 69.6492, lon: 18.9553 },
-  "Hong Kong": { lat: 22.3193, lon: 114.1694 }
+  "Sydney": { lat: -33.859972, lon: 151.211111 },
+  "Jamberoo": { lat: -34.648468, lon: 150.777145 },
+  "Taralga": { lat: -34.4636, lon: 149.7978 },
+  "Blue Mountain": { lat: -33.7158, lon: 150.3133 },
+  "Gold Coast": { lat: -27.4697707, lon: 153.0251235 },
+  "Maleny": { lat: -26.7626299, lon: 152.8522429 }
+  "Tin Can Bay": { lat: -25.9167, lon: 153.0000 },
+  "Brisbane": { lat: -27.4689682, lon: 153.0234991 }
 };
 
 // --- 2. 行程資料 ---
 const tripData = [
-  {
-    day: 1,
-    date: "2/14 (六)",
-    city: "Helsinki", // 用於天氣對應
-    title: "香港 -> 赫爾辛基 -> 羅瓦涅米",
-    activities: [
-      { type: "transport", time: "14:05", title: "抵達赫爾辛基 (HEL)", desc: "抵達機場，準備轉機。", location: "Helsinki Airport" },
-      { type: "rest", time: "16:00", title: "Taobao Lounge 休息", desc: "HKD 130/人。休息充電，調整時差。", location: "Helsinki Airport Lounge" },
-      { type: "flight", time: "19:40", title: "飛往羅瓦涅米 (HEL->RVN)", desc: "HKD 1,520 (已付)。21:05 抵達。", location: "Rovaniemi Airport" },
-      { type: "hotel", time: "22:00", title: "Arctic Resort Delight", desc: "已付。3房/3晚。可在附近散步適應天氣。", location: "Arctic Resort Delight" }
-    ]
-  },
-  {
-    day: 2,
-    date: "2/15 (日)",
-    city: "Rovaniemi",
-    title: "羅瓦涅米 (分組活動)",
-    activities: [
-      { type: "food", time: "08:30", title: "酒店早餐", desc: "吃飽飽準備出發！" },
-      { type: "activity", time: "09:00", title: "【年輕人】冰瀑健行", desc: "Frozen Waterfall Hiking (USD 162/人)。GetYourGuide 預訂，含接送。", location: "Korouoma Canyon" },
-      { type: "activity", time: "09:00", title: "【父母】博物館與市區", desc: "Arktikum 博物館 / 市中心散步 / 桑拿 (HKD 166-460)。", location: "Arktikum" },
-      { type: "food", time: "18:00", title: "晚餐 & 超市採買", desc: "預算約 HKD 200。補給零食飲料。", location: "K-Citymarket Rovaniemi" },
-      { type: "aurora", time: "晚上", title: "追極光 (視天氣)", desc: "免費在酒店附近觀賞，或參加 Tour。", location: "Arctic Resort Delight" }
-    ]
-  },
-  {
-    day: 3,
-    date: "2/16 (一)",
-    city: "Rovaniemi",
-    title: "羅瓦涅米 (破冰船)",
-    activities: [
-      { type: "transport", time: "09:45", title: "前往遊客中心", desc: "Call Uber/Bolt。前往 Tourist Information Center。" },
-      { type: "activity", time: "10:00", title: "Polar Explorer 破冰船", desc: "EUR 470/人 (+30午餐)。含冰海漂浮體驗。重要：記得帶替換衣物！", location: "Polar Explorer Icebreaker" },
-      { type: "food", time: "18:35", title: "晚餐 & 超市", desc: "預算約 HKD 200。" }
-    ]
-  },
-  {
-    day: 4,
-    date: "2/17 (二)",
-    city: "Rovaniemi", // 行程中移動，顯示出發地或目的地皆可
-    title: "羅瓦涅米 -> 伊納里",
-    activities: [
-      { type: "transport", time: "10:30", title: "寄放行李", desc: "K-Market Toriportti。EUR 5/件。", location: "K-Market Toriportti" },
-      { type: "sight", time: "11:15", title: "聖誕老人市區辦公室", desc: "Santa Claus City Office. 免費入場。" },
-      { type: "sight", time: "13:00", title: "聖誕老人村", desc: "搭車前往。跨越北極圈線！必去郵局。", location: "Santa Claus Village" },
-      { type: "transport", time: "17:20", title: "巴士前往 Inari", desc: "EUR 63.2/人。約 4.5 小時車程。", location: "Rovaniemi Bus Station" },
-      { type: "hotel", time: "22:00", title: "Panorama Cabin", desc: "Sauna Suite。已付，3晚。極光熱點！", location: "Panorama Cabin Inari" }
-    ]
-  },
-  {
-    day: 5,
-    date: "2/18 (三)",
-    city: "Inari",
-    title: "伊納里 (馴鹿體驗)",
-    activities: [
-      { type: "rest", time: "10:00", title: "補眠 & 換房", desc: "準備午餐。" },
-      { type: "activity", time: "13:30", title: "馴鹿雪橇", desc: "EUR 168/人。2人一台。", location: "Visit Inari" },
-      { type: "aurora", time: "20:00", title: "極光狩獵 (Car)", desc: "EUR 169/人。4小時車程追光。", location: "Inari Aurora Spot" }
-    ]
-  },
-  {
-    day: 6,
-    date: "2/19 (四)",
-    city: "Inari",
-    title: "伊納里 (哈士奇)",
-    activities: [
-      { type: "activity", time: "11:30", title: "哈士奇雪橇", desc: "EUR 198/人。3小時體驗，超刺激！", location: "Visit Inari Safaris" },
-      { type: "aurora", time: "20:30", title: "雪地摩托車追極光", desc: "EUR 183/人。3小時。", location: "Inari" }
-    ]
-  },
-  {
-    day: 7,
-    date: "2/20 (五)",
-    city: "Kirkenes",
-    title: "Inari -> 基爾肯內斯",
-    activities: [
-      { type: "transport", time: "08:00", title: "包車前往 Kirkenes", desc: "EUR 393/車。跨境進入挪威！", location: "Kirkenes" },
-      { type: "hotel", time: "11:30", title: "Scandic Hotel", desc: "HKD 1,688/房。已付。", location: "Scandic Kirkenes" },
-      { type: "activity", time: "13:00", title: "冰釣 (選購)", desc: "NOK 3100/人。Snow Hotel。", location: "Snowhotel Kirkenes" },
-      { type: "food", time: "18:00", title: "帝王蟹吃到飽", desc: "NOK 2800/人。必吃行程！", location: "Kirkenes King Crab Safari" }
-    ]
-  },
-  {
-    day: 8,
-    date: "2/21 (六)",
-    city: "Kirkenes",
-    title: "Kirkenes -> 特羅姆瑟",
-    activities: [
-      { type: "transport", time: "12:30", title: "搭乘 Havila Voyages", desc: "EUR 185/人。前往 Tromsø。船上包膳食。", location: "Havila Voyages Kirkenes" }
-    ]
-  },
-  {
-    day: 9,
-    date: "2/22 (日)",
-    city: "Tromsø",
-    title: "郵輪 -> 特羅姆瑟",
-    activities: [
-      { type: "transport", time: "23:45", title: "抵達 Tromsø", desc: "深夜抵達。", location: "Tromsø Terminal" },
-      { type: "hotel", time: "23:55", title: "Thon Hotel Polar", desc: "HKD 2,006/房。已付。", location: "Thon Hotel Polar" }
-    ]
-  },
-  {
-    day: 10,
-    date: "2/23 (一)",
-    city: "Tromsø",
-    title: "特羅姆瑟 -> 赫爾辛基",
-    activities: [
-      { type: "flight", time: "18:45", title: "飛往赫爾辛基", desc: "HKD 1,620/人。已付。", location: "Tromsø Airport" },
-      { type: "hotel", time: "22:30", title: "Scandic Helsinki Airport", desc: "HKD 1,015/房。", location: "Scandic Helsinki Airport" }
-    ]
-  },
-  {
-    day: 11,
-    date: "2/24 (二)",
-    city: "Helsinki",
-    title: "赫爾辛基 -> 香港",
-    activities: [
-      { type: "flight", time: "16:35", title: "飛返香港 (HKG)", desc: "HKD 6,600/人。回家囉！", location: "Helsinki Airport" }
-    ]
-  }
-];
+            {
+                day: 1,
+                date: "12/25 (四)",
+                city: "Sydney", // 用於天氣對應
+                title: "悉尼 Mascot",
+                events: [
+                    { time: "15:30", type: "transport", title: "抵達 SYD 機場", desc: "搭 Airport Link 去 Mascot 站 (HK$140)", nav: "Sydney Airport" },
+                    { time: "16:00", type: "stay", title: "入住 Meriton Suites", desc: "Mascot Central, 8 Jackson Dr", note: "評價4.5/5", nav: "Meriton Suites Mascot Central" },
+                    { time: "17:30", type: "sight", title: "Circular Quay 夜景", desc: "歌劇院、海港大橋聖誕燈飾", nav: "Circular Quay", tips: "聖誕人多，注意財物！" },
+                    { time: "18:45", type: "food", title: "Fortune of War 晚餐", desc: "傳統酒吧 (HK$160)", note: "需確認營業", nav: "Fortune of War", highlight: "必吃" },
+                ]
+            },
+            {
+                day: 2,
+                date: "12/26 (五)",
+                city: "Sydney",
+                title: "Bondi & Boxing Day",
+                events: [
+                    { time: "10:00", type: "sight", title: "QVB 逛街", desc: "Boxing Day 購物熱點", nav: "Queen Victoria Building" },
+                    { time: "14:15", type: "shop", title: "Birkenhead Point Outlet", desc: "重點: Lululemon", highlight: "必買", nav: "Birkenhead Point Outlet" },
+                    { time: "15:15", type: "transport", title: "Simba Car Hire 取車", desc: "悉尼機場取車", nav: "Simba Car Hire Sydney Airport", note: "檢查車況並拍照" },
+                    { time: "17:00", type: "sight", title: "Bondi to Coogee Walk", desc: "海濱步道，注意防曬", nav: "Bondi Beach", tips: "帶水！無遮蔭" },
+                    { time: "19:00", type: "food", title: "Icebergs Dining Room", desc: "絕美海景晚餐 (HK$300)", highlight: "需預約", nav: "Icebergs Dining Room and Bar" },
+                    { time: "20:00", type: "stay", title: "lyf Bondi Junction", desc: "95-97 Oxford St", nav: "lyf Bondi Junction Sydney" }
+                ]
+            },
+            {
+                day: 3,
+                date: "12/27 (六)",
+                city: "Sydney",
+                location: "Grand Pacific Drive",
+                events: [
+                    { time: "08:00", type: "food", title: "Bills Bondi 早餐", desc: "經典早餐 (HK$220)", nav: "Bills Bondi", highlight: "經典" },
+                    { time: "10:00", type: "sight", title: "Cape Solander", desc: "觀鯨點及海景", nav: "Cape Solander" },
+                    { time: "12:10", type: "sight", title: "Sea Cliff Bridge", desc: "藍色海洋路大橋", nav: "Sea Cliff Bridge", tips: "風大，拍照抓緊手機" },
+                    { time: "17:15", type: "sight", title: "Kiama Blowhole", desc: "噴水洞", nav: "Kiama Blowhole", tips: "浪大時最壯觀" },
+                    { time: "19:45", type: "stay", title: "Airbnb Balgownie", desc: "Balgownie 區域", nav: "Balgownie, NSW" }
+                ]
+            },
+            {
+                day: 4,
+                date: "12/28 (日)",
+                city: "Jamberoo",
+                title: "Jamberoo 水上樂園",
+                events: [
+                    { time: "10:00", type: "sight", title: "Jamberoo Action Park", desc: "全日玩水 (HK$600)", highlight: "預購門票", nav: "Jamberoo Action Park", tips: "Funnel Web 滑梯必玩！" },
+                    { time: "17:00", type: "transport", title: "前往 Goulburn", desc: "車程約 2hr 15min", nav: "Goulburn, NSW" },
+                    { time: "19:15", type: "stay", title: "Mercure Goulburn", desc: "2 Lockyer St", nav: "Mercure Goulburn" }
+                ]
+            },
+            {
+                day: 5,
+                date: "12/29 (一)",
+                city: "Taralga",
+                title: "藍山 & 袋熊",
+                events: [
+                    { time: "10:00", type: "sight", title: "Taralga Wildlife Park", desc: "Wombat 互動 (需預約)", highlight: "重點活動", nav: "Taralga Wildlife Park" },
+                    { time: "16:00", type: "sight", title: "Lincoln's Rock", desc: "懸崖打卡位", nav: "Lincoln's Rock", tips: "無欄杆，注意安全" },
+                    { time: "18:40", type: "stay", title: "Fairmont Resort & Spa Blue Mountains", desc: "Blue Mountains", nav: "Fairmont Resort Blue Mountains" }
+                ]
+            },
+            {
+                day: 6,
+                date: "12/30 (二)",
+                city: "Blue Mountain",
+                title: "Scenic World -> 布里斯本",
+                events: [
+                    { time: "09:00", type: "sight", title: "Scenic World", desc: "三種纜車體驗", highlight: "無限票", nav: "Scenic World" },
+                    { time: "16:00", type: "transport", title: "還車 & 飛往布里斯本", desc: "Simba 還車 -> 機場", nav: "Simba Car Hire Sydney Airport" },
+                    { time: "18:25", type: "transport", title: "飛往 BNE (JQ822)", desc: "Jetstar 18:25 - 18:55", nav: "Sydney Airport Domestic Terminal" },
+                    { time: "20:00", type: "food", title: "Popolo Italian Kitchen", desc: "義式晚餐 (HK$160)", nav: "Popolo Italian Kitchen" },
+                    { time: "20:00", type: "stay", title: "Royal Albert Hotel", desc: "167 Albert St", nav: "Royal Albert Hotel Brisbane" }
+                ]
+            },
+            {
+                day: 7,
+                date: "12/31 (三)",
+                city: "Gold Coast",
+                title: "黃金海岸 Movie World",
+                events: [
+                    { time: "09:30", type: "transport", title: "取車 (Enterprise)", desc: "400 George St", nav: "Enterprise Rent-A-Car Brisbane City" },
+                    { time: "11:00", type: "sight", title: "Warner Bros Movie World", desc: "全日樂園", highlight: "DC Rivals 必玩", nav: "Warner Bros. Movie World" },
+                    { time: "21:00", type: "sight", title: "新年煙花 🎆", desc: "Surfers Paradise Beach", nav: "Surfers Paradise Beach", tips: "19:00 前去佔位！" },
+                    { time: "18:00", type: "stay", title: "Mercure Gold Coast", desc: "81 Surf Parade", nav: "Mercure Gold Coast Resort" }
+                ]
+            },
+            {
+                day: 8,
+                date: "01/01 (四)",
+                city: "Gold Coast",
+                title: "抱樹熊 & 螢火蟲",
+                events: [
+                    { time: "10:00", type: "sight", title: "Currumbin Wildlife", desc: "Koala Encounter (需預約 8:45/9:00)", highlight: "抱樹熊", nav: "Currumbin Wildlife Sanctuary" },
+                    { time: "15:15", type: "sight", title: "Tamborine Mountain", desc: "螢火蟲洞 & 瀑布", nav: "Glow Worm Caves Tamborine Mountain" },
+                    { time: "18:45", type: "stay", title: "Wynnum Anchor Quay", desc: "14 Adam St", nav: "Wynnum Anchor Quay" }
+                ]
+            },
+            {
+                day: 9,
+                date: "01/02 (五)",
+                city: "Maleny",
+                location: "鴨嘴獸 & 玻璃屋山",
+                events: [
+                    { time: "08:30", type: "sight", title: "Maleny 鴨嘴獸", desc: "Obi Obi Boardwalk", tips: "保持安靜，帶望遠鏡", nav: "Obi Obi Boardwalk" },
+                    { time: "12:15", type: "sight", title: "Glass House Mountains", desc: "Lookout 觀景", nav: "Glass House Mountains Lookout" },
+                    { time: "18:00", type: "stay", title: "Tin Can Bay Motel", desc: "2-4 Lagoon St", nav: "Tin Can Bay Motel" }
+                ]
+            },
+            {
+                day: 10,
+                date: "01/03 (六)",
+                city: "Tin Can Bay",
+                title: "餵海豚 & 彩色沙",
+                events: [
+                    { time: "08:00", type: "sight", title: "餵野生海豚", desc: "Barnacles Dolphin Centre", highlight: "7am 抵達", nav: "Barnacles Dolphin Centre" },
+                    { time: "09:30", type: "sight", title: "Carlo Sand Blow", desc: "滑沙 + 絕美沙丘", tips: "帶水，很曬！", nav: "Carlo Sand Blow" },
+                    { time: "13:00", type: "sight", title: "Coloured Sands", desc: "彩色沙崖漫步", nav: "Rainbow Beach Coloured Sands" },
+                    { time: "18:00", type: "stay", title: "回到 Capri Fraser Brisbane", desc: "Brisbane", nav: "Capri Fraser Brisbane" }
+                ]
+            },
+            {
+                day: 11,
+                date: "01/04 (日)",
+                city: "Brisbane",
+                title: "布里斯本 City Walk",
+                events: [
+                    { time: "10:00", type: "transport", title: "還車 (Enterprise)", desc: "10:00 前還車", nav: "Enterprise Rent-A-Car Brisbane City" },
+                    { time: "AM", type: "sight", title: "方案一: New Farm", desc: "文青咖啡 & 公園", nav: "New Farm Park" },
+                    { time: "PM", type: "sight", title: "方案二: South Bank", desc: "人造沙灘 & 河岸晚餐", nav: "South Bank Parklands" }
+                ]
+            },
+            {
+                day: 12,
+                date: "01/05 (一)",
+                city: "Brisbane",
+                title: "回家囉 ✈️",
+                events: [
+                    { time: "07:45", type: "transport", title: "前往機場", desc: "BNE 機場", nav: "Brisbane Airport" },
+                    { time: "10:40", type: "transport", title: "飛往香港 (PX004/008)", desc: "經莫爾茲比港轉機", nav: "Brisbane International Airport" }
+                ]
+            }
+        ];
 
 const infoData = {
   flights: [
-    { date: "2/14", route: "HKG -> HEL", no: "AY100", time: "14:05 抵達" },
-    { date: "2/14", route: "HEL -> RVN", no: "AY537", time: "19:40 起飛" },
-    { date: "2/23", route: "TOS -> HEL", no: "AY442", time: "18:45 起飛" },
-    { date: "2/24", route: "HEL -> HKG", no: "AY099", time: "16:35 起飛" }
+    { date: "12/24", route: "深圳 SZX ➔ 成都 CTU", code: "3U8706", time: "16:55 - 20:00" },
+    { date: "12/25", route: "成都 CTU ➔ 悉尼 SYD", code: "3U3891", time: "01:40 - 15:25" },
+    { date: "12/30", route: "悉尼 SYD ➔ 布里斯本 BNE", code: "JQ822", time: "18:25 - 18:55" },
+    { date: "01/05", route: "布里斯本 BNE ➔ 莫爾茲比港 POM", code: "PX004", time: "10:40 - 13:50" },
+    { date: "01/05", route: "莫爾茲比港 POM ➔ 香港 HKG", code: "PX008", time: "14:55 - 19:35" }
   ],
   hotels: [
-    { name: "Arctic Resort Delight", city: "Rovaniemi", nights: "3晚", note: "3房, 已付" },
-    { name: "Panorama Cabin", city: "Inari", nights: "3晚", note: "Sauna Suite, 已付" },
-    { name: "Scandic Hotel", city: "Kirkenes", nights: "1晚", note: "已付" },
-    { name: "Havila Voyages", city: "Cruise", nights: "1晚", note: "郵輪過夜" },
-    { name: "Thon Hotel Polar", city: "Tromsø", nights: "1晚", note: "已付" },
-    { name: "Scandic Airport", city: "Helsinki", nights: "1晚", note: "機場旁" }
+    { name: "Meriton Suites Mascot Central", city: "Sydney", nights: "1晚", note: "已付, Agoda" },
+    { name: "lyf Bondi Junction", city: "Sydney", nights: "1晚", note: "已付, booking.com" },
+    { name: "Airbnb Balgownie", city: "Sydney", nights: "1晚", note: "已付, Airbnb" },
+    { name: "Mercure Goulburn", city: "Sydney", nights: "1晚", note: "已付, Agoda" },
+    { name: "Fairmont Resort & Spa Blue Mountains", city: "Sydney", nights: "1晚", note: "已付, Agoda" },
+    { name: "Royal Albert Hotel", city: "Brisbane", nights: "1晚", note: "已付, booking.com" },
+    { name: "Mercure Gold Coast", city: "Brisbane", nights: "1晚", note: "已付, Agoda" },
+    { name: "Wynnum Anchor Quay", city: "Brisbane", nights: "1晚", note: "已付, booking.com" },
+    { name: "Tin Can Bay Motel", city: "Brisbane", nights: "1晚", note: "已付, booking.com" },
+    { name: "Capri Fraser Brisbane", city: "Brisbane", nights: "2晚", note: "已付, Trip.com" },
   ]
 };
 
@@ -161,7 +189,7 @@ const WeatherWidget = ({ city }) => {
 
   useEffect(() => {
     const fetchWeather = async () => {
-      const loc = LOCATIONS[city] || LOCATIONS["Helsinki"];
+      const loc = LOCATIONS[city] || LOCATIONS["Sydney"];
       try {
         const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${loc.lat}&longitude=${loc.lon}&current_weather=true`);
         const data = await res.json();
@@ -198,8 +226,8 @@ const WeatherWidget = ({ city }) => {
 // 匯率換算器
 const CurrencyConverter = () => {
   const [amount, setAmount] = useState('');
-  const [currency, setCurrency] = useState('EUR'); // EUR, NOK, USD
-  const RATES = { EUR: 9.2, NOK: 0.75, USD: 7.8 }; // 根據 PDF 匯率 (NOK 估算)
+  const [currency, setCurrency] = useState('AUS'); // AUS, USD
+  const RATES = { AUS: 5.2, USD: 7.8 }; // 根據 PDF 匯率 (NOK 估算)
 
   const result = amount ? (parseFloat(amount) * RATES[currency]).toFixed(1) : 0;
 
@@ -222,8 +250,7 @@ const CurrencyConverter = () => {
             onChange={(e) => setCurrency(e.target.value)}
             className="absolute right-2 top-2 bottom-2 bg-white rounded-lg border border-gray-200 text-sm font-bold px-2 text-gray-600"
           >
-            <option value="EUR">€ EUR</option>
-            <option value="NOK">kr NOK</option>
+            <option value="EUR">$ AUS</option>
             <option value="USD">$ USD</option>
           </select>
         </div>
@@ -233,7 +260,7 @@ const CurrencyConverter = () => {
            <span className="font-black text-xl text-pink-600">${result}</span>
         </div>
       </div>
-      <p className="text-[10px] text-center text-gray-400">匯率：1 EUR ≈ 9.2 | 1 NOK ≈ 0.75</p>
+      <p className="text-[10px] text-center text-gray-400">匯率：1 AUS ≈ 5.2 | 1 USD ≈ 7.8</p>
     </div>
   );
 };
@@ -241,14 +268,14 @@ const CurrencyConverter = () => {
 // 關鍵字標記元件
 const HighlightText = ({ text }) => {
   if (!text) return null;
-  const regex = /(HKD [\d,]+|EUR [\d,]+|NOK [\d,]+|USD [\d,]+|已付|免費|Call uber|必吃|必去|需預約)/gi;
+  const regex = /(HKD [\d,]+|AUS [\d,]+|USD [\d,]+|已付|免費|Call uber|必吃|必去|需預約)/gi;
   
   const parts = text.split(regex);
   return (
     <span>
       {parts.map((part, i) => {
         if (part.match(regex)) {
-          const isMoney = part.match(/(HKD|EUR|NOK|USD)/);
+          const isMoney = part.match(/(HKD|AUS|USD)/);
           const isPaid = part.match(/已付|免費/);
           const isImportant = part.match(/Call uber|必吃|必去|需預約/);
           
@@ -271,7 +298,7 @@ const ActivityCard = ({ act }) => {
   
   if (act.type === 'flight') { Icon = Plane; style = "border-l-4 border-blue-400 bg-blue-50"; }
   if (act.type === 'food') { Icon = Utensils; style = "border-l-4 border-orange-400 bg-orange-50"; }
-  if (act.type === 'hotel') { Icon = Home; style = "border-l-4 border-purple-400 bg-purple-50"; }
+  if (act.type === 'Stay') { Icon = Home; style = "border-l-4 border-purple-400 bg-purple-50"; }
   if (act.type === 'aurora') { Icon = Snowflake; style = "border-l-4 border-teal-400 bg-teal-50 shadow-md shadow-teal-100/50"; }
   if (act.type === 'activity' || act.type === 'sight') { Icon = Camera; style = "border-l-4 border-pink-400 bg-pink-50"; }
   if (act.type === 'transport') { Icon = Train; style = "border-l-4 border-green-400 bg-green-50"; }
@@ -328,8 +355,8 @@ export default function App() {
       {/* Header */}
       <header className="sticky top-0 z-50 bg-white/85 backdrop-blur-md px-6 py-4 rounded-b-[2rem] shadow-sm border-b border-pink-100 flex justify-between items-center">
         <div>
-          <h1 className="text-2xl font-black text-gray-800">北歐極光旅</h1>
-          <p className="text-xs text-pink-400 font-bold tracking-wider">FINLAND & NORWAY 2026</p>
+          <h1 className="text-2xl font-black text-gray-800">🇦🇺 澳洲Christmas之旅</h1>
+          <p className="text-xs text-pink-400 font-bold tracking-wider">Sydney & Brisbane 2026</p>
         </div>
         <div className="bg-pink-100 p-2 rounded-full text-xl animate-bounce shadow-inner">☃️</div>
       </header>
@@ -498,4 +525,5 @@ export default function App() {
       </nav>
     </div>
   );
+
 }
