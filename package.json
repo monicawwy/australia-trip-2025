@@ -1,5 +1,5 @@
 {
-  "name": "finland-trip-2026",
+  "name": "australia-trip-2025",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -22,4 +22,5 @@
     "tailwindcss": "^3.3.5",
     "vite": "^5.0.0"
   }
+
 }
