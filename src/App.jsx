@@ -377,7 +377,7 @@ const ActivityCard = ({ act }) => {
     const query = act.nav || act.title; // 用 act.nav 優先
     if (query) {
       // **FIX 5: 修正 Google Maps 連結語法**
-      window.open(`http://googleusercontent.com/maps.google.com/search?api=1&query=${encodeURIComponent(query)}`, '_blank');
+      window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`, '_blank');
     }
   };
 
