@@ -15,149 +15,217 @@ const LOCATIONS = {
 
 // --- 2. 行程資料 ---
 const tripData = [
-            {
-                day: 1,
-                date: "12/25 (四)",
-                city: "Sydney", // 用於天氣對應
-                title: "悉尼 Mascot",
-                events: [ // **FIX 2: 將 events 改為 activities**
-                    { time: "15:30", type: "transport", title: "抵達 SYD 機場", desc: "搭 Airport Link 去 Mascot 站 (HK$140)", nav: "Sydney Airport" },
-                    { time: "16:00", type: "stay", title: "入住 Meriton Suites", desc: "Mascot Central, 8 Jackson Dr", note: "評價4.5/5", nav: "Meriton Suites Mascot Central" },
-                    { time: "17:30", type: "sight", title: "Circular Quay 夜景", desc: "歌劇院、海港大橋聖誕燈飾", nav: "Circular Quay", tips: "聖誕人多，注意財物！" },
-                    { time: "18:45", type: "food", title: "Fortune of War 晚餐", desc: "傳統酒吧 (HK$160)", note: "需確認營業", nav: "Fortune of War", highlight: "必吃" },
-                ]
-            },
-            {
-                day: 2,
-                date: "12/26 (五)",
-                city: "Sydney",
-                title: "Bondi & Boxing Day",
-                events: [ // **FIX 2: 將 events 改為 activities**
-                    { time: "10:00", type: "sight", title: "QVB 逛街", desc: "Boxing Day 購物熱點", nav: "Queen Victoria Building" },
-                    { time: "14:15", type: "shop", title: "Birkenhead Point Outlet", desc: "重點: Lululemon", highlight: "必買", nav: "Birkenhead Point Outlet" },
-                    { time: "15:15", type: "transport", title: "Simba Car Hire 取車", desc: "悉尼機場取車", nav: "Simba Car Hire Sydney Airport", note: "檢查車況並拍照" },
-                    { time: "17:00", type: "sight", title: "Bondi to Coogee Walk", desc: "海濱步道，注意防曬", nav: "Bondi Beach", tips: "帶水！無遮蔭" },
-                    { time: "19:00", type: "food", title: "Icebergs Dining Room", desc: "絕美海景晚餐 (HK$300)", highlight: "需預約", nav: "Icebergs Dining Room and Bar" },
-                    { time: "20:00", type: "stay", title: "lyf Bondi Junction", desc: "95-97 Oxford St", nav: "lyf Bondi Junction Sydney" }
-                ]
-            },
-            {
-                day: 3,
-                date: "12/27 (六)",
-                city: "Sydney",
-                location: "Grand Pacific Drive",
-                events: [ // **FIX 2: 將 events 改為 activities**
-                    { time: "08:00", type: "food", title: "Bills Bondi 早餐", desc: "經典早餐 (HK$220)", nav: "Bills Bondi", highlight: "經典" },
-                    { time: "10:00", type: "sight", title: "Cape Solander", desc: "觀鯨點及海景", nav: "Cape Solander" },
-                    { time: "12:10", type: "sight", title: "Sea Cliff Bridge", desc: "藍色海洋路大橋", nav: "Sea Cliff Bridge", tips: "風大，拍照抓緊手機" },
-                    { time: "17:15", type: "sight", title: "Kiama Blowhole", desc: "噴水洞", nav: "Kiama Blowhole", tips: "浪大時最壯觀" },
-                    { time: "19:45", type: "stay", title: "Airbnb Balgownie", desc: "Balgownie 區域", nav: "Balgownie, NSW" }
-                ]
-            },
-            {
-                day: 4,
-                date: "12/28 (日)",
-                city: "Jamberoo",
-                title: "Jamberoo 水上樂園",
-                events: [ // **FIX 2: 將 events 改為 activities**
-                    { time: "10:00", type: "sight", title: "Jamberoo Action Park", desc: "全日玩水 (HK$600)", highlight: "預購門票", nav: "Jamberoo Action Park", tips: "Funnel Web 滑梯必玩！" },
-                    { time: "17:00", type: "transport", title: "前往 Goulburn", desc: "車程約 2hr 15min", nav: "Goulburn, NSW" },
-                    { time: "19:15", type: "stay", title: "Mercure Goulburn", desc: "2 Lockyer St", nav: "Mercure Goulburn" }
-                ]
-            },
-            {
-                day: 5,
-                date: "12/29 (一)",
-                city: "Taralga",
-                title: "藍山 & 袋熊",
-                events: [ // **FIX 2: 將 events 改為 activities**
-                    { time: "10:00", type: "sight", title: "Taralga Wildlife Park", desc: "Wombat 互動 (需預約)", highlight: "重點活動", nav: "Taralga Wildlife Park" },
-                    { time: "16:00", type: "sight", title: "Lincoln's Rock", desc: "懸崖打卡位", nav: "Lincoln's Rock", tips: "無欄杆，注意安全" },
-                    { time: "18:40", type: "stay", title: "Fairmont Resort & Spa Blue Mountains", desc: "Blue Mountains", nav: "Fairmont Resort Blue Mountains" }
-                ]
-            },
-            {
-                day: 6,
-                date: "12/30 (二)",
-                city: "Blue Mountain",
-                title: "Scenic World -> 布里斯本",
-                events: [ // **FIX 2: 將 events 改為 activities**
-                    { time: "09:00", type: "sight", title: "Scenic World", desc: "三種纜車體驗", highlight: "無限票", nav: "Scenic World" },
-                    { time: "16:00", type: "transport", title: "還車 & 飛往布里斯本", desc: "Simba 還車 -> 機場", nav: "Simba Car Hire Sydney Airport" },
-                    { time: "18:25", type: "transport", title: "飛往 BNE (JQ822)", desc: "Jetstar 18:25 - 18:55", nav: "Sydney Airport Domestic Terminal" },
-                    { time: "20:00", type: "food", title: "Popolo Italian Kitchen", desc: "義式晚餐 (HK$160)", nav: "Popolo Italian Kitchen" },
-                    { time: "20:00", type: "stay", title: "Royal Albert Hotel", desc: "167 Albert St", nav: "Royal Albert Hotel Brisbane" }
-                ]
-            },
-            {
-                day: 7,
-                date: "12/31 (三)",
-                city: "Gold Coast",
-                title: "黃金海岸 Movie World",
-                events: [ // **FIX 2: 將 events 改為 activities**
-                    { time: "09:30", type: "transport", title: "取車 (Enterprise)", desc: "400 George St", nav: "Enterprise Rent-A-Car Brisbane City" },
-                    { time: "11:00", type: "sight", title: "Warner Bros Movie World", desc: "全日樂園", highlight: "DC Rivals 必玩", nav: "Warner Bros. Movie World" },
-                    { time: "21:00", type: "sight", title: "新年煙花 🎆", desc: "Surfers Paradise Beach", nav: "Surfers Paradise Beach", tips: "19:00 前去佔位！" },
-                    { time: "18:00", type: "stay", title: "Mercure Gold Coast", desc: "81 Surf Parade", nav: "Mercure Gold Coast Resort" }
-                ]
-            },
-            {
-                day: 8,
-                date: "01/01 (四)",
-                city: "Gold Coast",
-                title: "抱樹熊 & 螢火蟲",
-                events: [ // **FIX 2: 將 events 改為 activities**
-                    { time: "10:00", type: "sight", title: "Currumbin Wildlife", desc: "Koala Encounter (需預約 8:45/9:00)", highlight: "抱樹熊", nav: "Currumbin Wildlife Sanctuary" },
-                    { time: "15:15", type: "sight", title: "Tamborine Mountain", desc: "螢火蟲洞 & 瀑布", nav: "Glow Worm Caves Tamborine Mountain" },
-                    { time: "18:45", type: "stay", title: "Wynnum Anchor Quay", desc: "14 Adam St", nav: "Wynnum Anchor Quay" }
-                ]
-            },
-            {
-                day: 9,
-                date: "01/02 (五)",
-                city: "Maleny",
-                location: "鴨嘴獸 & 玻璃屋山",
-                events: [ // **FIX 2: 將 events 改為 activities**
-                    { time: "08:30", type: "sight", title: "Maleny 鴨嘴獸", desc: "Obi Obi Boardwalk", tips: "保持安靜，帶望遠鏡", nav: "Obi Obi Boardwalk" },
-                    { time: "12:15", type: "sight", title: "Glass House Mountains", desc: "Lookout 觀景", nav: "Glass House Mountains Lookout" },
-                    { time: "18:00", type: "stay", title: "Tin Can Bay Motel", desc: "2-4 Lagoon St", nav: "Tin Can Bay Motel" }
-                ]
-            },
-            {
-                day: 10,
-                date: "01/03 (六)",
-                city: "Tin Can Bay",
-                title: "餵海豚 & 彩色沙",
-                events: [ // **FIX 2: 將 events 改為 activities**
-                    { time: "08:00", type: "sight", title: "餵野生海豚", desc: "Barnacles Dolphin Centre", highlight: "7am 抵達", nav: "Barnacles Dolphin Centre" },
-                    { time: "09:30", type: "sight", title: "Carlo Sand Blow", desc: "滑沙 + 絕美沙丘", tips: "帶水，很曬！", nav: "Carlo Sand Blow" },
-                    { time: "13:00", type: "sight", title: "Coloured Sands", desc: "彩色沙崖漫步", nav: "Rainbow Beach Coloured Sands" },
-                    { time: "18:00", type: "stay", title: "回到 Capri Fraser Brisbane", desc: "Brisbane", nav: "Capri Fraser Brisbane" }
-                ]
-            },
-            {
-                day: 11,
-                date: "01/04 (日)",
-                city: "Brisbane",
-                title: "布里斯本 City Walk",
-                events: [ // **FIX 2: 將 events 改為 activities**
-                    { time: "10:00", type: "transport", title: "還車 (Enterprise)", desc: "10:00 前還車", nav: "Enterprise Rent-A-Car Brisbane City" },
-                    { time: "AM", type: "sight", title: "方案一: New Farm", desc: "文青咖啡 & 公園", nav: "New Farm Park" },
-                    { time: "PM", type: "sight", title: "方案二: South Bank", desc: "人造沙灘 & 河岸晚餐", nav: "South Bank Parklands" }
-                ]
-            },
-            {
-                day: 12,
-                date: "01/05 (一)",
-                city: "Brisbane",
-                title: "回家囉 ✈️",
-                events: [ // **FIX 2: 將 events 改為 activities**
-                    { time: "07:45", type: "transport", title: "前往機場", desc: "BNE 機場", nav: "Brisbane Airport" },
-                    { time: "10:40", type: "transport", title: "飛往香港 (PX004/008)", desc: "經莫爾茲比港轉機", nav: "Brisbane International Airport" }
-                ]
-            }
-        ];
-
+  {
+    day: 1,
+    date: "12/25 (四)",
+    city: "Sydney",
+    title: "抵達悉尼 & Circular Quay",
+    events: [
+      { time: "15:30 - 16:00", type: "transport", title: "抵達 SYD 機場 -> Mascot", desc: "搭 Airport Link 火車去 Mascot 站 (HK$140)。", nav: "Mascot Station", tips: "聖誕日班次可能減少，實際車程 5min。" },
+      { time: "16:00 - 16:30", type: "stay", title: "入住 Meriton Suites", desc: "Mascot Central, 8 Jackson Dr (HK$1,050)。", nav: "Meriton Suites Mascot Central", note: "評價4.5/5，24/7開放。" },
+      { time: "16:30 - 17:00", type: "stay", title: "酒店休息 / 準備", desc: "喺酒店整頓一下。", nav: "Meriton Suites Mascot Central" },
+      { time: "17:00 - 17:30", type: "transport", title: "前往 Circular Quay", desc: "搭火車由 Mascot 去 Circular Quay。", nav: "Circular Quay Station", tips: "實際車程 16min。" },
+      { time: "17:30 - 18:45", type: "sight", title: "Circular Quay 夜景", desc: "歌劇院、海港大橋聖誕燈飾。", nav: "Circular Quay", highlight: "聖誕燈飾", tips: "人多擠迫，注意財物！" },
+      { time: "18:45 - 21:00", type: "food", title: "Fortune of War 晚餐", desc: "傳統酒吧晚餐 (HK$160)。", nav: "Fortune of War", highlight: "需預約", note: "評價4.3/5，需確認聖誕營業。" },
+      { time: "21:00 - 21:15", type: "transport", title: "返酒店休息", desc: "搭火車返 Mascot Central。", nav: "Meriton Suites Mascot Central" }
+    ]
+  },
+  {
+    day: 2,
+    date: "12/26 (五)",
+    city: "Sydney",
+    title: "Boxing Day & Bondi Beach",
+    events: [
+      { time: "09:00 - 09:45", type: "food", title: "酒店附近早餐", desc: "Mascot Central 附近 (HK$200)。", nav: "Mascot Central" },
+      { time: "10:00 - 10:40", type: "transport", title: "前往 QVB", desc: "搭火車 Mascot -> Central -> QVB (HK$40)。", nav: "Queen Victoria Building", tips: "實際車程 7min。" },
+      { time: "10:40 - 12:30", type: "shop", title: "QVB 逛街 (Boxing Day)", desc: "Queen Victoria Building 購物 (評價4.6/5)。", nav: "Queen Victoria Building", highlight: "Boxing Day 熱鬧", tips: "人多擠迫。" },
+      { time: "12:30 - 13:30", type: "food", title: "午餐 @ QVB Food Court", desc: "簡單午餐 (HK$100)。", nav: "Queen Victoria Building" },
+      { time: "13:30 - 14:15", type: "transport", title: "前往 Outlet", desc: "搭巴士 442 去 Birkenhead Point (HK$40)。", nav: "Birkenhead Point Outlet Centre", tips: "實際車程 16min。" },
+      { time: "14:15 - 15:15", type: "shop", title: "Birkenhead Point Outlet", desc: "重點: Lululemon (評價4.4/5)。", nav: "Birkenhead Point Outlet Centre", highlight: "必買", tips: "特價多但排隊長。" },
+      { time: "15:15 - 16:00", type: "transport", title: "前往機場取車", desc: "搭的士去 Simba Car Hire (HK$100)。", nav: "Simba Car Hire Sydney Airport", note: "檢查車況並拍照。" },
+      { time: "16:00 - 17:00", type: "transport", title: "自駕去 Bondi Beach", desc: "油費約 HK$50。", nav: "Bondi Beach", tips: "實際車程 15min。" },
+      { time: "17:00 - 18:15", type: "sight", title: "Bondi to Coogee Walk", desc: "海濱步道 (Expensive Parking)。", nav: "Bondi to Coogee Walk", tips: "夏季熱/人多，注意防曬。" },
+      { time: "18:15 - 18:45", type: "transport", title: "自駕去 lyf Bondi Junction", desc: "前往住宿點 (No Parking)。", nav: "lyf Bondi Junction Sydney" },
+      { time: "18:45 - 19:00", type: "stay", title: "入住 lyf Bondi Junction", desc: "95-97 Oxford St (HK$800)。", nav: "lyf Bondi Junction Sydney", note: "位置方便，評價4.2/5。" },
+      { time: "19:00 - 21:00", type: "food", title: "Icebergs Dining Room", desc: "絕美海景晚餐 (HK$300)。", nav: "Icebergs Dining Room and Bar", highlight: "需預約", tips: "海景佳。" }
+    ]
+  },
+  {
+    day: 3,
+    date: "12/27 (六)",
+    city: "Sydney",
+    title: "Grand Pacific Drive Roadtrip",
+    events: [
+      { time: "08:00 - 09:00", type: "food", title: "Bills Bondi 早餐", desc: "283 Bondi Rd，經典早餐 (HK$220)。", nav: "Bills Bondi", highlight: "經典必食" },
+      { time: "09:00 - 10:00", type: "transport", title: "自駕去 Cape Solander", desc: "車程約 45min - 1hr。", nav: "Cape Solander" },
+      { time: "10:00 - 10:30", type: "sight", title: "Cape Solander 觀景", desc: "觀鯨點及海景，風景美但風大。", nav: "Cape Solander" },
+      { time: "10:30 - 11:40", type: "transport", title: "自駕去 Bald Hill Lookout", desc: "車程約 55min (46.7km)。", nav: "Bald Hill Lookout" },
+      { time: "11:40 - 12:10", type: "sight", title: "Bald Hill Lookout", desc: "俯瞰 Sea Cliff Bridge，視野開闊。", nav: "Bald Hill Lookout" },
+      { time: "12:10 - 12:20", type: "transport", title: "自駕去 Sea Cliff Bridge", desc: "車程 10min (7km)。", nav: "Sea Cliff Bridge" },
+      { time: "12:20 - 12:30", type: "sight", title: "Sea Cliff Bridge", desc: "步行觀景，橋景壯觀。", nav: "Sea Cliff Bridge", tips: "風大，抓緊手機。" },
+      { time: "12:30 - 13:00", type: "transport", title: "自駕去 Southern Gateway", desc: "車程 20min (23.3km)。", nav: "Southern Gateway Centre" },
+      { time: "13:00 - 14:00", type: "sight", title: "Southern Gateway Centre", desc: "休息、去洗手間及觀景。", nav: "Southern Gateway Centre" },
+      { time: "14:00 - 14:30", type: "transport", title: "自駕去 Mount Keira", desc: "車程 20min (17.8km)。", nav: "Mount Keira Lookout" },
+      { time: "14:30 - 15:00", type: "sight", title: "Mount Keira Lookout", desc: "俯瞰 Wollongong 景色。", nav: "Mount Keira Lookout" },
+      { time: "15:00 - 16:00", type: "transport", title: "自駕去 Cathedral Rocks", desc: "車程 40min (41.6km)。", nav: "Cathedral Rocks Kiama" },
+      { time: "16:00 - 16:30", type: "sight", title: "Cathedral Rocks", desc: "觀賞火山岩柱地質奇觀。", nav: "Cathedral Rocks Kiama" },
+      { time: "16:30 - 16:45", type: "transport", title: "自駕去 Bombo Headland", desc: "車程 15min (5km)。", nav: "Bombo Headland Geological Site" },
+      { time: "16:45 - 17:00", type: "sight", title: "Bombo Headland", desc: "觀賞玄武岩柱。", nav: "Bombo Headland Geological Site" },
+      { time: "17:00 - 17:15", type: "transport", title: "自駕去 Kiama Blowhole", desc: "車程 10min (2km)。", nav: "Kiama Blowhole" },
+      { time: "17:15 - 17:45", type: "sight", title: "Kiama Blowhole", desc: "噴水洞，浪大時最壯觀。", nav: "Kiama Blowhole" },
+      { time: "17:45 - 18:15", type: "transport", title: "自駕去 Saddleback Mt", desc: "車程 15min (9km)。", nav: "Saddleback Mountain Lookout" },
+      { time: "18:15 - 18:45", type: "sight", title: "Saddleback Mt Lookout", desc: "俯瞰 Kiama，觀賞日落。", nav: "Saddleback Mountain Lookout" },
+      { time: "18:45 - 19:45", type: "transport", title: "自駕去 Balgownie", desc: "車程 50min (43km)。", nav: "Balgownie, NSW" },
+      { time: "19:45 - 20:00", type: "stay", title: "入住 Airbnb Balgownie", desc: "舒適住宿 (HK$900)。", nav: "Balgownie, NSW", note: "需確認入住時間。" },
+      { time: "20:00 - 21:30", type: "food", title: "The Lagoon Seafood", desc: "海鮮晚餐 (HK$200)。", nav: "The Lagoon Seafood Restaurant", highlight: "海鮮新鮮" }
+    ]
+  },
+  {
+    day: 4,
+    date: "12/28 (日)",
+    city: "Jamberoo",
+    title: "Jamberoo 水上樂園",
+    events: [
+      { time: "08:30 - 09:00", type: "food", title: "Airbnb 自備早餐", desc: "簡單早餐 (HK$100)。", nav: "Balgownie, NSW" },
+      { time: "09:00 - 10:00", type: "transport", title: "自駕去 Jamberoo", desc: "車程 50min (45km)。", nav: "Jamberoo Action Park" },
+      { time: "10:00 - 17:00", type: "sight", title: "Jamberoo Action Park", desc: "全日玩水 (門票 HK$600)。", nav: "Jamberoo Action Park", highlight: "Funnel Web 必玩", tips: "預購門票避排隊。" },
+      { time: "17:00 - 19:15", type: "transport", title: "自駕去 Goulburn", desc: "車程 2hr 15min (149km)。", nav: "Goulburn, NSW" },
+      { time: "19:15 - 19:30", type: "stay", title: "入住 Mercure Goulburn", desc: "2 Lockyer St (HK$800)。", nav: "Mercure Goulburn", note: "評價4.2/5。" },
+      { time: "19:30 - 21:00", type: "food", title: "Hibernian Hotel 晚餐", desc: "傳統酒吧晚餐 (HK$160)。", nav: "Hibernian Hotel Goulburn" }
+    ]
+  },
+  {
+    day: 5,
+    date: "12/29 (一)",
+    city: "Taralga",
+    title: "袋熊 & 藍山",
+    events: [
+      { time: "08:30 - 09:00", type: "food", title: "酒店早餐", desc: "已包早餐。", nav: "Mercure Goulburn" },
+      { time: "09:00 - 10:00", type: "transport", title: "自駕去 Taralga Wildlife", desc: "車程 50min (42km)。", nav: "Taralga Wildlife Park" },
+      { time: "10:00 - 12:00", type: "sight", title: "Taralga Wildlife Park", desc: "Wombat Interaction (HK$200)。", nav: "Taralga Wildlife Park", highlight: "重點: 摸袋熊", tips: "需預約互動。" },
+      { time: "12:00 - 16:00", type: "transport", title: "自駕去 Lincoln's Rock", desc: "含午餐時間，車程 2hr 45min。", nav: "Lincoln's Rock" },
+      { time: "16:00 - 16:30", type: "sight", title: "Lincoln's Rock", desc: "俯瞰 Jamison Valley，懸崖打卡。", nav: "Lincoln's Rock", tips: "無欄杆，注意安全！" },
+      { time: "16:30 - 16:40", type: "transport", title: "自駕去 Wentworth Falls", desc: "車程 10min (13km)。", nav: "Wentworth Falls Lookout" },
+      { time: "16:40 - 17:15", type: "sight", title: "Wentworth Falls Lookout", desc: "睇瀑布。", nav: "Wentworth Falls Lookout" },
+      { time: "17:15 - 17:45", type: "transport", title: "自駕去 Govetts Leap", desc: "車程 30min (24km)。", nav: "Govetts Leap Lookout" },
+      { time: "17:45 - 18:30", type: "sight", title: "Govetts Leap Lookout", desc: "俯瞰 Grose Valley。", nav: "Govetts Leap Lookout" },
+      { time: "18:30 - 19:00", type: "transport", title: "自駕去 Katoomba", desc: "前往酒店 (15km)。", nav: "Fairmont Resort & Spa Blue Mountains" },
+      { time: "18:40 - 19:00", type: "stay", title: "入住 Fairmont Resort", desc: "Blue Mountains (HK$1,300)。", nav: "Fairmont Resort & Spa Blue Mountains", note: "度假村舒適。" },
+      { time: "19:00 - 20:30", type: "food", title: "Embers 晚餐", desc: "酒店內晚餐 (HK$200)。", nav: "Embers Restaurant", highlight: "需預約" }
+    ]
+  },
+  {
+    day: 6,
+    date: "12/30 (二)",
+    city: "Blue Mountain",
+    title: "Scenic World -> 布里斯本",
+    events: [
+      { time: "08:00 - 08:45", type: "food", title: "酒店早餐", desc: "Fairmont Resort。", nav: "Fairmont Resort & Spa Blue Mountains" },
+      { time: "08:45 - 09:00", type: "transport", title: "自駕去 Scenic World", desc: "車程 10min。", nav: "Scenic World" },
+      { time: "09:00 - 12:00", type: "sight", title: "Scenic World", desc: "纜車無限票 (HK$600)。", nav: "Scenic World", highlight: "Railway 必坐", tips: "9am 開門即入。" },
+      { time: "12:00 - 13:00", type: "food", title: "午餐 @ Scenic World", desc: "EATS 或 Echo Point (HK$110)。", nav: "Scenic World" },
+      { time: "13:00 - 16:00", type: "transport", title: "還車 & 去機場", desc: "Simba 還車 -> 的士去機場。", nav: "Simba Car Hire Sydney Airport", note: "16:00 準時還車。" },
+      { time: "16:00 - 18:30", type: "transport", title: "飛往布里斯本", desc: "JQ822 (18:25 - 18:55) 機票 HK$1,100。", nav: "Sydney Airport Domestic Terminal" },
+      { time: "19:15 - 19:30", type: "transport", title: "的士去酒店", desc: "前往 Royal Albert Hotel (HK$150)。", nav: "Royal Albert Hotel Brisbane" },
+      { time: "20:00 - 21:30", type: "food", title: "Popolo Italian Kitchen", desc: "義式晚餐 (HK$160)。", nav: "Popolo Italian Kitchen", note: "評價 4.3/5。" }
+    ]
+  },
+  {
+    day: 7,
+    date: "12/31 (三)",
+    city: "Gold Coast",
+    title: "Movie World & 除夕煙花",
+    events: [
+      { time: "08:00 - 09:30", type: "food", title: "酒店早餐", desc: "Royal Albert Hotel。", nav: "Royal Albert Hotel Brisbane" },
+      { time: "09:30 - 10:00", type: "transport", title: "取車 (Enterprise)", desc: "400 George St (租車 HK$375)。", nav: "Enterprise Rent-A-Car Brisbane City" },
+      { time: "10:00 - 11:00", type: "transport", title: "自駕去 Movie World", desc: "車程 1hr (55km)。", nav: "Warner Bros. Movie World" },
+      { time: "11:00 - 17:00", type: "sight", title: "Warner Bros Movie World", desc: "全日樂園 (門票 HK$1,000)。", nav: "Warner Bros. Movie World", highlight: "DC Rivals / Superman", tips: "提前買票。" },
+      { time: "17:00 - 18:00", type: "transport", title: "自駕去 Surfers Paradise", desc: "車程 1hr (40km)。", nav: "Surfers Paradise" },
+      { time: "18:00 - 18:30", type: "stay", title: "入住 Mercure Gold Coast", desc: "81 Surf Parade (HK$1,350)。", nav: "Mercure Gold Coast Resort" },
+      { time: "18:30 - 20:00", type: "sight", title: "海灘散步 / 休息", desc: "Surfers Paradise Beach。", nav: "Surfers Paradise Beach" },
+      { time: "20:00 - 21:00", type: "food", title: "Social Eating House", desc: "晚餐 (HK$200)。", nav: "Social Eating House + Bar", highlight: "需預約" },
+      { time: "21:00 - 23:00", type: "sight", title: "新年煙花 🎆", desc: "Surfers Paradise Beach。", nav: "Surfers Paradise Beach", tips: "19:00 前霸位。" }
+    ]
+  },
+  {
+    day: 8,
+    date: "01/01 (四)",
+    city: "Gold Coast",
+    title: "抱樹熊 & 螢火蟲",
+    events: [
+      { time: "09:15 - 10:00", type: "transport", title: "自駕去 Currumbin", desc: "車程 45min (25km)。", nav: "Currumbin Wildlife Sanctuary" },
+      { time: "10:00 - 14:00", type: "sight", title: "Currumbin Wildlife", desc: "Koala Encounter + Lunch (HK$1,300)。", nav: "Currumbin Wildlife Sanctuary", highlight: "抱樹熊", tips: "預約 8:45/9:00 時段。" },
+      { time: "14:00 - 15:15", type: "transport", title: "自駕去 Tamborine", desc: "車程 1hr 15min (90km)。", nav: "Tamborine Mountain" },
+      { time: "15:15 - 16:45", type: "sight", title: "螢火蟲洞 & Curtis Falls", desc: "Glow Worm Caves (門票 HK$200)。", nav: "Glow Worm Caves Tamborine Mountain", note: "新年確認開放。" },
+      { time: "16:45 - 18:15", type: "transport", title: "自駕去 Wynnum", desc: "車程 1hr 30min (80km)。", nav: "Wynnum" },
+      { time: "18:15 - 18:45", type: "sight", title: "Wynnum Waterfront", desc: "海濱散步放鬆。", nav: "Wynnum Jetty" },
+      { time: "18:45 - 19:00", type: "stay", title: "入住 Wynnum Anchor", desc: "14 Adam St (HK$880)。", nav: "Wynnum Anchor Quay" },
+      { time: "19:00 - 20:30", type: "food", title: "Cedar & Pine 晚餐", desc: "晚餐 (HK$160)。", nav: "Cedar & Pine Bar" }
+    ]
+  },
+  {
+    day: 9,
+    date: "01/02 (五)",
+    city: "Maleny",
+    title: "鴨嘴獸 & 玻璃屋山",
+    events: [
+      { time: "07:00 - 08:30", type: "transport", title: "自駕去 Maleny", desc: "車程 1hr 30min (85km)。", nav: "Obi Obi Boardwalk" },
+      { time: "08:30 - 09:30", type: "sight", title: "睇鴨嘴獸 (Platypus)", desc: "Obi Obi Boardwalk (免費)。", nav: "Obi Obi Boardwalk", tips: "保持安靜，帶望遠鏡。" },
+      { time: "09:30 - 11:30", type: "sight", title: "Maleny 鎮中心", desc: "逛街飲咖啡 (HK$60)。", nav: "Maple Street Maleny" },
+      { time: "11:30 - 12:15", type: "transport", title: "自駕去 Glass House Mts", desc: "車程 40min (20km)。", nav: "Glass House Mountains Lookout" },
+      { time: "12:15 - 13:15", type: "sight", title: "Glass House Mts Lookout", desc: "360度全景，免費。", nav: "Glass House Mountains Lookout" },
+      { time: "13:15 - 13:45", type: "transport", title: "自駕去 Mary Cairncross", desc: "車程 30min (15km)。", nav: "Mary Cairncross Scenic Reserve" },
+      { time: "13:45 - 16:00", type: "sight", title: "Mary Cairncross Reserve", desc: "雨林步道 + 午餐 (HK$120)。", nav: "Mary Cairncross Scenic Reserve" },
+      { time: "16:00 - 18:00", type: "transport", title: "自駕去 Tin Can Bay", desc: "車程 2hr (145km)。", nav: "Tin Can Bay" },
+      { time: "18:00 - 18:15", type: "stay", title: "入住 Tin Can Bay Motel", desc: "2-4 Lagoon St (HK$830)。", nav: "Tin Can Bay Motel" },
+      { time: "18:15 - 19:30", type: "food", title: "Marina Bar & Grill", desc: "晚餐 (HK$160)。", nav: "Marina Bar & Grill Tin Can Bay" }
+    ]
+  },
+  {
+    day: 10,
+    date: "01/03 (六)",
+    city: "Tin Can Bay",
+    title: "餵海豚 & 彩色沙",
+    events: [
+      { time: "06:30 - 06:45", type: "food", title: "酒店附近早餐", desc: "早餐 (HK$100)。", nav: "Tin Can Bay" },
+      { time: "06:45 - 08:15", type: "sight", title: "餵野生海豚", desc: "Barnacles Dolphin Centre (HK$100)。", nav: "Barnacles Dolphin Centre", highlight: "7am 抵達", tips: "8am 餵食。" },
+      { time: "08:15 - 09:30", type: "transport", title: "自駕去 Carlo Sand Blow", desc: "車程 1hr 15min (60km)。", nav: "Carlo Sand Blow" },
+      { time: "09:30 - 11:30", type: "sight", title: "Carlo Sand Blow 滑沙", desc: "租借滑沙板 + 觀景 (HK$100)。", nav: "Carlo Sand Blow", tips: "帶水，11:30前離開避熱浪。" },
+      { time: "11:30 - 11:45", type: "transport", title: "自駕去 Rainbow Beach 鎮", desc: "車程 10min。", nav: "Rainbow Beach" },
+      { time: "11:45 - 12:45", type: "food", title: "Rainbow Beach 午餐", desc: "鎮中心午餐 + 購物 (HK$120)。", nav: "Rainbow Beach" },
+      { time: "12:45 - 13:00", type: "transport", title: "前往 Coloured Sands", desc: "車程 5min。", nav: "Griffin Esplanade" },
+      { time: "13:00 - 14:00", type: "sight", title: "Coloured Sands", desc: "彩色沙崖漫步 (免費)。", nav: "Rainbow Beach Coloured Sands", tips: "潮退時最佳。" },
+      { time: "14:00 - 14:15", type: "sight", title: "Rainbow Stairs", desc: "打卡位。", nav: "Laurie Hanson Park" },
+      { time: "14:15 - 18:00", type: "transport", title: "自駕返 Brisbane", desc: "車程 3hr 30min (226km)。", nav: "Brisbane City" },
+      { time: "18:00 - 18:30", type: "stay", title: "入住 Royal Albert Hotel", desc: "Brisbane (HK$860)。", nav: "Royal Albert Hotel Brisbane" },
+      { time: "18:30 - 19:30", type: "food", title: "Massimo 晚餐", desc: "晚餐 (HK$200)。", nav: "Massimo Restaurant & Bar" }
+    ]
+  },
+  {
+    day: 11,
+    date: "01/04 (日)",
+    city: "Brisbane",
+    title: "布里斯本 City Walk",
+    events: [
+      { time: "10:00 - 10:30", type: "transport", title: "還車 (Enterprise)", desc: "10:00 前還車 (400 George St)。", nav: "Enterprise Rent-A-Car Brisbane City" },
+      { time: "09:30 - 12:30", type: "sight", title: "上午: 城市探索 (二選一)", desc: "方案1: New Farm 飲咖啡/公園散步 | 方案2: City Botanic Gardens。", nav: "Brisbane City", highlight: "自由活動" },
+      { time: "12:30 - 15:00", type: "food", title: "午餐時間", desc: "方案1: Mary Mae's (河邊) | 方案2: South Bank 過橋午餐。", nav: "Brisbane City" },
+      { time: "15:00 - 17:00", type: "sight", title: "下午: 逛街/下午茶", desc: "方案1: James St 精品街 | 方案2: South Bank 河岸/人造沙灘。", nav: "James Street" },
+      { time: "18:00 - 20:00", type: "food", title: "晚餐時間", desc: "方案1: sAme sAme (James St) | 方案2: Harajuku Gyoza (South Bank)。", nav: "South Bank Parklands" }
+    ]
+  },
+  {
+    day: 12,
+    date: "01/05 (一)",
+    city: "Brisbane",
+    title: "回家囉 ✈️",
+    events: [
+      { time: "07:45 - 08:15", type: "transport", title: "前往機場", desc: "搭的士去 BNE 機場 (HK$200)。", nav: "Brisbane Airport" },
+      { time: "08:15 - 10:40", type: "sight", title: "機場 Check-in", desc: "辦理登機手續。", nav: "Brisbane International Airport" },
+      { time: "10:40 - 20:00", type: "transport", title: "飛往香港", desc: "經莫爾茲比港轉機 (PX004/PX008)。", nav: "Hong Kong International Airport" }
+    ]
+  }
+];
 const infoData = {
   flights: [
     { date: "12/24", route: "深圳 SZX ➔ 成都 CTU", code: "3U8706", time: "16:55 - 20:00" },
@@ -543,3 +611,4 @@ export default function App() {
   );
 
 }
+
