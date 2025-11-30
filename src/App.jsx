@@ -428,14 +428,6 @@ const DayCard = ({ day }) => {
       <div 
         className={`p-5 cursor-pointer flex justify-between items-center transition-colors ${isExpanded ? 'bg-pink-100/50' : 'hover:bg-pink-50'}`}
         onClick={toggleExpand}
-      
-      // 在 DayCard 組件內，從這裡開始檢查：
-// ...
-
-      {/* 卡片頭部 (Header) */}
-      <div 
-        className={`p-5 cursor-pointer flex justify-between items-center transition-colors ${isExpanded ? 'bg-pink-100/50' : 'hover:bg-pink-50'}`}
-        onClick={toggleExpand}
       >
         
         {/* 左邊主要內容區塊 (Flex Container) */}
