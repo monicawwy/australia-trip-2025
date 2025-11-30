@@ -428,16 +428,48 @@ const DayCard = ({ day }) => {
       <div 
         className={`p-5 cursor-pointer flex justify-between items-center transition-colors ${isExpanded ? 'bg-pink-100/50' : 'hover:bg-pink-50'}`}
         onClick={toggleExpand}
+      
+      // 在 DayCard 組件內，從這裡開始檢查：
+// ...
+
+      {/* 卡片頭部 (Header) */}
+      <div 
+        className={`p-5 cursor-pointer flex justify-between items-center transition-colors ${isExpanded ? 'bg-pink-100/50' : 'hover:bg-pink-50'}`}
+        onClick={toggleExpand}
       >
-      {/* 加入 flex-grow min-w-0 讓左邊內容盡量佔據剩餘空間，但不會溢出 */}
-        <div className="flex items-start gap-4 flex-grow min-w-0"> 
-          <div className="text-center min-w-[70px] flex-shrink-0">
-          {/* ... Day 數同日期 ... */}
-          </div>
-          {/* 註：標題 div 已經在上一步加入 min-w-0 */}
-          {/* ... 標題同城市 ... */}
+        
+        {/* 左邊主要內容區塊 (Flex Container) */}
+        <div className="flex items-start gap-4 flex-grow min-w-0">
+            
+            {/* 💥 還原呢個區塊：Day 數與日期 (固定寬度) 💥 */}
+            <div className="text-center min-w-[70px] flex-shrink-0"> 
+                {/* 採用粉紅色以增加對比度 */}
+                <div className="text-3xl font-black text-pink-600 font-mono tracking-tighter">Day {day.day}</div>
+                <div className="text-sm font-bold text-gray-600">{day.date}</div>
+            </div>
+            {/* 💥 還原區塊結束 💥 */}
+
+            {/* 標題與城市區塊 (可伸縮) */}
+            <div className="min-w-0 pr-2">
+                {/* Title (用 truncate 避免遮擋天氣卡) */}
+                <h3 className="text-lg font-black text-gray-800 leading-tight truncate">{day.title}</h3>
+                <p className="text-sm text-gray-500 flex items-center gap-1 mt-1">
+                    <MapPin size={14} className="text-pink-400"/>
+                    {day.city}
+                </p>
+            </div>
         </div>
-          
+        
+        {/* 右邊天氣與箭嘴區塊 */}
+        <div className="flex flex-col items-end gap-2 min-w-[120px]">
+            <WeatherWidget city={day.city} />
+            <ChevronDown 
+              size={20} 
+              className={`text-gray-500 transition-transform duration-300 ${isExpanded ? 'transform rotate-180 text-pink-500' : ''}`}
+            />
+        </div>
+      </div>
+
         {/* 加入 min-w-0 確保它可以在 flex 容器中縮小 */}
           <div className="min-w-0"> 
             {/* 核心資訊：行程標題 - 加入 truncate 以防止過長 */}
