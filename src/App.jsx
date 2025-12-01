@@ -276,10 +276,10 @@ const WeatherWidget = ({ city }) => {
   const isCold = weather?.temperature < 15; // **OPT 1: 將判斷嚴寒條件改為 15 度以下**
   
   return (
-    <div className={`flex items-center gap-2 px-3 py-2 rounded-xl shadow-sm border border-white/50 w-[120px] flex-shrink-0 ${isCold ? 'bg-gradient-to-r from-blue-50 to-blue-100' : 'bg-orange-50'}`}>
-      <div className={`p-2 rounded-full ${isCold ? 'bg-blue-200 text-blue-600' : 'bg-orange-200 text-orange-600'}`}>
+    <div className={`flex items-center justify-start gap-3 pl-2 pr-3 py-2 rounded-xl shadow-sm border border-white/50 w-[120px] flex-shrink-0 ${isCold ? 'bg-gradient-to-r from-blue-50 to-blue-100' : 'bg-orange-50'}`}>
+      <div className={`p-1.5 rounded-full flex-shrink-0 ${isCold ? 'bg-blue-200 text-blue-600' : 'bg-orange-200 text-orange-600'}`}>
         {/* 簡單的天氣圖標判斷 */}
-        {weather?.temperature < 10 ? <Cloud size={18} /> : (weather?.temperature > 25 ? <Sun size={18} /> : <Cloud size={18} />)}
+        {weather?.temperature < 10 ? <Cloud size={16} /> : (weather?.temperature > 25 ? <Sun size={16} /> : <Cloud size={16} />)}
       </div>
       <div>
         <div className="text-[10px] uppercase text-gray-500 font-bold tracking-wider line-clamp-2">即時天氣 in {city}</div>
@@ -429,7 +429,7 @@ const DayCard = ({ day }) => {
       
       {/* 卡片頭部 (永遠顯示) - 點擊區域 */}
       <div 
-        className={`p-3 cursor-pointer flex justify-between items-center transition-colors ${isExpanded ? 'bg-pink-100/50' : 'hover:bg-pink-50'}`}
+        className={`p-3 min-h-[120px] cursor-pointer flex justify-between items-center transition-colors ${isExpanded ? 'bg-pink-100/50' : 'hover:bg-pink-50'}`}
         onClick={toggleExpand}
       >
         <div className="flex items-start gap-4 flex-grow min-w-0">
