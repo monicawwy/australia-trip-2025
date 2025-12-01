@@ -276,16 +276,20 @@ const WeatherWidget = ({ city }) => {
   const isCold = weather?.temperature < 15; // **OPT 1: 將判斷嚴寒條件改為 15 度以下**
   
   return (
-    <div className={`flex items-center gap-3 px-4 py-2 rounded-xl shadow-sm border border-white/50 ${isCold ? 'bg-gradient-to-r from-blue-50 to-blue-100' : 'bg-orange-50'}`}>
+    <div className={`flex items-center gap-2 px-3 py-2 rounded-xl shadow-sm border border-white/50 w-[120px] flex-shrink-0 ${isCold ? 'bg-gradient-to-r from-blue-50 to-blue-100' : 'bg-orange-50'}`}>
       <div className={`p-2 rounded-full ${isCold ? 'bg-blue-200 text-blue-600' : 'bg-orange-200 text-orange-600'}`}>
         {/* 簡單的天氣圖標判斷 */}
         {weather?.temperature < 10 ? <Cloud size={18} /> : (weather?.temperature > 25 ? <Sun size={18} /> : <Cloud size={18} />)}
       </div>
       <div>
-        <div className="text-[10px] uppercase text-gray-500 font-bold tracking-wider">Live Weather in {city}</div>
-        <div className="font-black text-xl text-gray-800 flex items-center gap-1">
-          {weather?.temperature}°C
-          {weather?.windspeed > 15 && <span className="text-[10px] bg-gray-200 px-1 rounded text-gray-600 flex items-center"><Wind size={8}/> 風大</span>}
+        <div className="text-[10px] uppercase text-gray-500 font-bold tracking-wider line-clamp-2">即時天氣 in {city}</div>
+        <div className="font-black text-xl text-gray-800 flex flex-col items-start"> {/* 改成 flex-col 直排 */}
+         <span>{weather?.temperature}°C</span>
+         {weather?.windspeed > 15 && (
+         <span className="text-[9px] bg-gray-200 px-1.5 py-0.5 rounded-full text-gray-600 flex items-center gap-1 mt-0.5">
+         <Wind size={8}/> 風大
+         </span>
+         )}
         </div>
       </div>
     </div>
@@ -425,7 +429,7 @@ const DayCard = ({ day }) => {
       
       {/* 卡片頭部 (永遠顯示) - 點擊區域 */}
       <div 
-        className={`p-5 cursor-pointer flex justify-between items-center transition-colors ${isExpanded ? 'bg-pink-100/50' : 'hover:bg-pink-50'}`}
+        className={`p-3 cursor-pointer flex justify-between items-center transition-colors ${isExpanded ? 'bg-pink-100/50' : 'hover:bg-pink-50'}`}
         onClick={toggleExpand}
       >
         <div className="flex items-start gap-4 flex-grow min-w-0">
@@ -436,7 +440,7 @@ const DayCard = ({ day }) => {
             <div className="text-sm font-bold text-pink-500">{day.date}</div>
           </div>
           
-          <div className="min-w-0"> 
+          <div className="w-[140px]"> {/* 鎖死闊度 */}
             {/* 核心資訊：行程標題 - 加入 line-clamp-3 以限制夾住 3 行 */}
             <h3 className="text-lg font-black text-gray-800 leading-tight line-clamp-3">{day.title}</h3>
             {/* ... 城市資訊 ... */}
