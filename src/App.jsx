@@ -19,7 +19,7 @@ const tripData = [
     day: 1,
     date: "12/25 (四)",
     city: "Sydney",
-    title: "抵達悉尼 & Circular Quay",
+    title: "抵達悉尼!",
     events: [
       { time: "15:30 - 16:00", type: "transport", title: "抵達 SYD 機場 -> Mascot", desc: "搭 Airport Link 火車去 Mascot 站 (HK$140)。", nav: "Mascot Station", tips: "聖誕日班次可能減少，實際車程 5min。" },
       { time: "16:00 - 16:30", type: "stay", title: "入住 Meriton Suites", desc: "Mascot Central, 8 Jackson Dr (HK$1,050)。", nav: "Meriton Suites Mascot Central", note: "評價4.5/5，24/7開放。" },
@@ -34,7 +34,7 @@ const tripData = [
     day: 2,
     date: "12/26 (五)",
     city: "Sydney",
-    title: "Boxing Day & Bondi Beach",
+    title: "Lululemon & Bondi Beach",
     events: [
       { time: "09:00 - 09:45", type: "food", title: "酒店附近早餐", desc: "Mascot Central 附近 (HK$200)。", nav: "Mascot Central" },
       { time: "10:00 - 10:40", type: "transport", title: "前往 QVB", desc: "搭火車 Mascot -> Central -> QVB (HK$40)。", nav: "Queen Victoria Building", tips: "實際車程 7min。" },
@@ -84,7 +84,7 @@ const tripData = [
     day: 4,
     date: "12/28 (日)",
     city: "Jamberoo",
-    title: "Jamberoo 水上樂園",
+    title: "Jamberoo Action Park",
     events: [
       { time: "08:30 - 09:00", type: "food", title: "Airbnb 自備早餐", desc: "簡單早餐 (HK$100)。", nav: "Balgownie, NSW" },
       { time: "09:00 - 10:00", type: "transport", title: "自駕去 Jamberoo", desc: "車程 50min (45km)。", nav: "Jamberoo Action Park" },
@@ -98,7 +98,7 @@ const tripData = [
     day: 5,
     date: "12/29 (一)",
     city: "Taralga",
-    title: "袋熊 & 藍山",
+    title: "方形便便獸 -> 藍山",
     events: [
       { time: "08:30 - 09:00", type: "food", title: "酒店早餐", desc: "已包早餐。", nav: "Mercure Goulburn" },
       { time: "09:00 - 10:00", type: "transport", title: "自駕去 Taralga Wildlife", desc: "車程 50min (42km)。", nav: "Taralga Wildlife Park" },
@@ -118,7 +118,7 @@ const tripData = [
     day: 6,
     date: "12/30 (二)",
     city: "Blue Mountain",
-    title: "Scenic World -> 布里斯本",
+    title: "Scenic World -> Brisbane",
     events: [
       { time: "08:00 - 08:45", type: "food", title: "酒店早餐", desc: "Fairmont Resort。", nav: "Fairmont Resort & Spa Blue Mountains" },
       { time: "08:45 - 09:00", type: "transport", title: "自駕去 Scenic World", desc: "車程 10min。", nav: "Scenic World" },
@@ -134,7 +134,7 @@ const tripData = [
     day: 7,
     date: "12/31 (三)",
     city: "Gold Coast",
-    title: "Movie World & 除夕煙花",
+    title: "Movie World & 2026!",
     events: [
       { time: "08:00 - 09:30", type: "food", title: "酒店早餐", desc: "Royal Albert Hotel。", nav: "Royal Albert Hotel Brisbane" },
       { time: "09:30 - 10:00", type: "transport", title: "取車 (Enterprise)", desc: "400 George St (租車 HK$375)。", nav: "Enterprise Rent-A-Car Brisbane City" },
@@ -167,7 +167,7 @@ const tripData = [
     day: 9,
     date: "01/02 (五)",
     city: "Maleny",
-    title: "鴨嘴獸 & 玻璃屋山",
+    title: "鴨嘴獸 -> Maleny",
     events: [
       { time: "07:00 - 08:30", type: "transport", title: "自駕去 Maleny", desc: "車程 1hr 30min (85km)。", nav: "Obi Obi Boardwalk" },
       { time: "08:30 - 09:30", type: "sight", title: "睇鴨嘴獸 (Platypus)", desc: "Obi Obi Boardwalk (免費)。", nav: "Obi Obi Boardwalk", tips: "保持安靜，帶望遠鏡。" },
@@ -185,7 +185,7 @@ const tripData = [
     day: 10,
     date: "01/03 (六)",
     city: "Tin Can Bay",
-    title: "餵海豚 & 彩色沙",
+    title: "餵海豚 -> Carlo Sand",
     events: [
       { time: "06:30 - 06:45", type: "food", title: "酒店附近早餐", desc: "早餐 (HK$100)。", nav: "Tin Can Bay" },
       { time: "06:45 - 08:15", type: "sight", title: "餵野生海豚", desc: "Barnacles Dolphin Centre (HK$100)。", nav: "Barnacles Dolphin Centre", highlight: "7am 抵達", tips: "8am 餵食。" },
@@ -205,7 +205,7 @@ const tripData = [
     day: 11,
     date: "01/04 (日)",
     city: "Brisbane",
-    title: "布里斯本 City Walk",
+    title: "Brisbane City Walk",
     events: [
       { time: "10:00 - 10:30", type: "transport", title: "還車 (Enterprise)", desc: "10:00 前還車 (400 George St)。", nav: "Enterprise Rent-A-Car Brisbane City" },
       { time: "09:30 - 12:30", type: "sight", title: "上午: 城市探索 (二選一)", desc: "方案1: New Farm 飲咖啡/公園散步 | 方案2: City Botanic Gardens。", nav: "Brisbane City", highlight: "自由活動" },
@@ -228,8 +228,8 @@ const tripData = [
 ];
 const infoData = {
   flights: [
-    { date: "12/24", route: "深圳 SZX ➔ 成都 CTU", code: "3U8706", time: "16:55 - 20:00" },
-    { date: "12/25", route: "成都 CTU ➔ 悉尼 SYD", code: "3U3891", time: "01:40 - 15:25" },
+    { date: "12/24", route: "深圳 SZX T3 ➔ 成都 CTU T1", code: "3U8706", time: "16:55 - 20:00" },
+    { date: "12/25", route: "成都 TFU T1 ➔ 悉尼 SYD T1", code: "3U3891", time: "01:40 - 15:25" },
     { date: "12/30", route: "悉尼 SYD ➔ 布里斯本 BNE", code: "JQ822", time: "18:25 - 18:55" },
     { date: "01/05", route: "布里斯本 BNE ➔ 莫爾茲比港 POM", code: "PX004", time: "10:40 - 13:50" },
     { date: "01/05", route: "莫爾茲比港 POM ➔ 香港 HKG", code: "PX008", time: "14:55 - 19:35" }
@@ -376,7 +376,6 @@ const ActivityCard = ({ act }) => {
   const handleNav = () => {
     const query = act.nav || act.title; // 用 act.nav 優先
     if (query) {
-      // **FIX 5: 修正 Google Maps 連結語法**
       window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`, '_blank');
     }
   };
@@ -437,10 +436,9 @@ const DayCard = ({ day }) => {
             <div className="text-sm font-bold text-pink-500">{day.date}</div>
           </div>
           
-          {/* 加入 min-w-0 確保它可以在 flex 容器中縮小 */}
           <div className="min-w-0"> 
-            {/* 核心資訊：行程標題 - 加入 truncate 以防止過長 */}
-            <h3 className="text-lg font-black text-gray-800 leading-tight truncate">{day.title}</h3>
+            {/* 核心資訊：行程標題 - 加入 line-clamp-3 以限制夾住 3 行 */}
+            <h3 className="text-lg font-black text-gray-800 leading-tight line-clamp-3">{day.title}</h3>
             {/* ... 城市資訊 ... */}
             <p className="text-sm text-gray-500 flex items-center gap-1 mt-1">
                 <MapPin size={14} className="text-pink-400"/>
