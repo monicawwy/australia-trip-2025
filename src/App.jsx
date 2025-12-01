@@ -505,10 +505,10 @@ export default function App() {
       {/* Header */}
       <header className="sticky top-0 z-50 bg-white/85 backdrop-blur-md px-6 py-4 rounded-b-[2rem] shadow-sm border-b border-pink-100 flex justify-between items-center">
         <div>
-          <h1 className="text-2xl font-black text-gray-800">🇦🇺 澳洲Christmas之旅</h1>
+          <h1 className="text-2xl font-black text-gray-800">澳洲聖誕之旅🎄</h1>
           <p className="text-xs text-pink-400 font-bold tracking-wider">Sydney & Brisbane 2026</p>
         </div>
-        <div className="bg-pink-100 p-2 rounded-full text-xl animate-bounce shadow-inner">☃️</div>
+        <div className="bg-pink-100 p-2 rounded-full text-xl animate-bounce shadow-inner">🎅</div>
       </header>
 
       {/* Content */}
