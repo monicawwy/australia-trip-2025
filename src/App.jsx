@@ -275,22 +275,41 @@ const WeatherWidget = ({ city }) => {
 
   const isCold = weather?.temperature < 15; // **OPT 1: 將判斷嚴寒條件改為 15 度以下**
   
+  // --- 新版 WeatherWidget ---
   return (
-    <div className={`flex items-center justify-start gap-3 pl-2 pr-3 py-2 rounded-xl shadow-sm border border-white/50 w-[120px] flex-shrink-0 ${isCold ? 'bg-gradient-to-r from-blue-50 to-blue-100' : 'bg-orange-50'}`}>
-      <div className={`p-1.5 rounded-full flex-shrink-0 ${isCold ? 'bg-blue-200 text-blue-600' : 'bg-orange-200 text-orange-600'}`}>
-        {/* 簡單的天氣圖標判斷 */}
-        {weather?.temperature < 10 ? <Cloud size={16} /> : (weather?.temperature > 25 ? <Sun size={16} /> : <Cloud size={16} />)}
-      </div>
-      <div>
-        <div className="text-[10px] uppercase text-gray-500 font-bold tracking-wider line-clamp-2">即時天氣 in {city}</div>
-        <div className="font-black text-xl text-gray-800 flex flex-col items-start"> {/* 改成 flex-col 直排 */}
-         <span>{weather?.temperature}°C</span>
-         {weather?.windspeed > 15 && (
-         <span className="text-[9px] bg-gray-200 px-1.5 py-0.5 rounded-full text-gray-600 flex items-center gap-1 mt-0.5">
-         <Wind size={8}/> 風大
-         </span>
-         )}
+    // 1. 外框：改用 flex-col (直排模式)，因為要分上下層
+    <div className={`flex flex-col justify-between p-2 rounded-xl shadow-sm border border-white/50 w-[120px] h-[90px] flex-shrink-0 ${isCold ? 'bg-gradient-to-r from-blue-50 to-blue-100' : 'bg-orange-50'}`}>
+      
+      {/* 2. 上層：城市名稱 (置中) */}
+      <div className="w-full text-center border-b border-black/5 pb-1 mb-1">
+        <div className="text-[10px] uppercase text-gray-500 font-bold tracking-wider line-clamp-2">{city}即時天氣
         </div>
+      </div>
+
+      {/* 3. 下層：左右分開 (左公仔、右溫度) */}
+      <div className="flex items-center justify-between px-1 flex-1">
+        
+        {/* 左下：天氣公仔 */}
+        <div className={`p-1.5 rounded-full flex-shrink-0 ${isCold ? 'bg-blue-200 text-blue-600' : 'bg-orange-200 text-orange-600'}`}>
+          {weather?.temperature < -5 ? <Snowflake size={20} /> : (weather?.temperature > 10 ? <Sun size={20} /> : <Cloud size={20} />)}
+        </div>
+
+        {/* 右下：溫度 + 風速 */}
+        <div className="flex flex-col items-end"> {/* items-end 令佢靠右對齊 */}
+          
+          {/* 溫度：用 Math.round() 取整數 */}
+          <div className="font-black text-2xl text-gray-800 leading-none">
+            {weather?.temperature ? Math.round(weather.temperature) : '--'}°C
+          </div>
+
+          {/* 風速提示 */}
+          {weather?.windspeed > 15 && (
+             <span className="text-[9px] bg-gray-200 px-1.5 py-0.5 rounded-full text-gray-600 flex items-center gap-1 mt-1">
+               <Wind size={8}/> 風大
+             </span>
+          )}
+        </div>
+
       </div>
     </div>
   );
