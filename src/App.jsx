@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { MapPin, Navigation, Calendar, Cloud, ChevronDown, Sun, CloudSnow, Wind, Utensils, Camera, Train, Plane, Home, Phone, Wallet, Info, Snowflake, ArrowRight, Plus, Trash2, RefreshCw } from 'lucide-react';
+import { MapPin, Navigation, Calendar, Cloud, ChevronDown, Sun, CloudSnow, Wind, Utensils, Camera, Train, Plane, Home, Phone, Wallet, Info, Snowflake, ArrowRight, Plus, Trash2, RefreshCw, Pencil, FileText  } from 'lucide-react';
 
 // --- 1. 地點座標 (用於即時天氣 API) ---
 const LOCATIONS = {
@@ -423,19 +423,37 @@ const HighlightText = ({ text }) => {
   );
 };
 
+// --- 修改後的 ActivityCard ---
 const ActivityCard = ({ act }) => {
   let Icon = MapPin;
   let style = "border-l-4 border-gray-300 bg-white";
   
   if (act.type === 'flight') { Icon = Plane; style = "border-l-4 border-blue-400 bg-blue-50"; }
   if (act.type === 'food') { Icon = Utensils; style = "border-l-4 border-orange-400 bg-orange-50"; }
-  if (act.type === 'stay') { Icon = Home; style = "border-l-4 border-purple-400 bg-purple-50"; } // **FIX 4: 修正 Stay 為小寫 stay**
+  if (act.type === 'stay') { Icon = Home; style = "border-l-4 border-purple-400 bg-purple-50"; }
   if (act.type === 'aurora') { Icon = Snowflake; style = "border-l-4 border-teal-400 bg-teal-50 shadow-md shadow-teal-100/50"; }
-  if (act.type === 'activity' || act.type === 'sight' || act.type === 'shop') { Icon = Camera; style = "border-l-4 border-pink-400 bg-pink-50"; } // **OPT 3: 增加 shop 類型**
+  if (act.type === 'activity' || act.type === 'sight' || act.type === 'shop') { Icon = Camera; style = "border-l-4 border-pink-400 bg-pink-50"; }
   if (act.type === 'transport') { Icon = Train; style = "border-l-4 border-green-400 bg-green-50"; }
 
+  // --- 新增功能：文件連結 ---
+  // 1. 嘗試從 LocalStorage 讀取舊紀錄 (用 unique ID: day + time + title 做 key)
+  const storageKey = `doc_${act.time}_${act.title}`;
+  const [docLink, setDocLink] = useState(localStorage.getItem(storageKey) || '');
+  const [isEditing, setIsEditing] = useState(false);
+  const [tempLink, setTempLink] = useState(docLink);
+
+  const handleSaveLink = () => {
+    setDocLink(tempLink);
+    if (tempLink) {
+      localStorage.setItem(storageKey, tempLink); // 儲存入電話記憶體
+    } else {
+      localStorage.removeItem(storageKey); // 如果清空就刪除紀錄
+    }
+    setIsEditing(false);
+  };
+
   const handleNav = () => {
-    const query = act.nav || act.title; // 用 act.nav 優先
+    const query = act.nav || act.title;
     if (query) {
       window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`, '_blank');
     }
@@ -448,17 +466,56 @@ const ActivityCard = ({ act }) => {
           <span className="bg-white/90 px-2 py-0.5 rounded-md text-xs font-black text-gray-500 shadow-sm font-mono">{act.time}</span>
           <Icon size={16} className="text-gray-600 opacity-70" />
         </div>
-        {act.nav && ( // **FIX 6: 將 act.location 改為 act.nav**
-          <button onClick={handleNav} className="flex items-center gap-1 bg-blue-500 text-white px-2.5 py-1 rounded-full text-[10px] font-bold shadow hover:bg-blue-600">
-            <Navigation size={10} /> GO
-          </button>
-        )}
+        
+        {/* 右上角按鈕區 */}
+        <div className="flex gap-1">
+         {/* 1. 文件按鈕 (優先讀取 Code 入面寫死嘅 doc，其次先讀鉛筆加嘅 docLink) */}
+         {(act.doc || docLink) && !isEditing && (
+         <a 
+          href={act.doc || docLink} // 優先用 act.doc
+          target="_blank" 
+          rel="noopener noreferrer" 
+          className="flex items-center gap-1 bg-yellow-400 text-yellow-900 px-2 py-1 rounded-full text-[10px] font-bold shadow hover:bg-yellow-500"
+          >
+            <FileText size={10} /> 門票/文件
+     </a>
+    )}
+
+           {/* 2. 導航按鈕 */}
+           {act.nav && (
+            <button onClick={handleNav} className="flex items-center gap-1 bg-blue-500 text-white px-2.5 py-1 rounded-full text-[10px] font-bold shadow hover:bg-blue-600">
+              <Navigation size={10} /> GO
+            </button>
+           )}
+        </div>
       </div>
-      <h4 className="font-bold text-gray-800 text-lg leading-tight mb-1">{act.title}</h4>
+
+      {/* 標題區 + 鉛筆仔 */}
+      <div className="flex items-center gap-2 mb-1">
+        <h4 className="font-bold text-gray-800 text-lg leading-tight">{act.title}</h4>
+        {/* 鉛筆按鈕：點擊開啟編輯 */}
+        <button onClick={() => setIsEditing(!isEditing)} className="text-gray-300 hover:text-pink-500 transition-colors">
+          <Pencil size={14} />
+        </button>
+      </div>
+
+      {/* 編輯模式輸入框 (只有按鉛筆才出現) */}
+      {isEditing && (
+        <div className="mb-2 flex gap-2 animate-fadeIn">
+          <input 
+            type="text" 
+            placeholder="貼上 PDF/圖片 連結 (如 Google Drive)" 
+            value={tempLink}
+            onChange={(e) => setTempLink(e.target.value)}
+            className="flex-1 text-xs p-2 border border-pink-200 rounded-lg bg-pink-50 focus:outline-pink-400"
+          />
+          <button onClick={handleSaveLink} className="bg-pink-500 text-white text-xs px-3 rounded-lg font-bold">儲存</button>
+        </div>
+      )}
+
       <p className="text-sm text-gray-600 leading-relaxed">
         <HighlightText text={act.desc} />
       </p>
-      {/* **OPT 4: 顯示 highlight/note/tips 額外資訊** */}
       {(act.highlight || act.note || act.tips) && (
         <div className="mt-2 text-[11px] text-gray-500 bg-white/70 p-1.5 rounded-lg border border-gray-100 italic">
           {act.highlight && <span className="mr-2 text-red-500 font-bold">重點: {act.highlight}</span>}
