@@ -1,3 +1,5 @@
+import { db } from './firebase'; // 引入剛剛建立的設定檔
+import { doc, setDoc, onSnapshot } from 'firebase/firestore';
 import React, { useState, useEffect } from 'react';
 import { MapPin, Navigation, Calendar, Cloud, ChevronDown, Sun, CloudSnow, Wind, Utensils, Camera, Train, Plane, Home, Phone, Wallet, Info, Snowflake, ArrowRight, Plus, Trash2, RefreshCw, Pencil, FileText  } from 'lucide-react';
 
@@ -610,6 +612,19 @@ export default function App() {
     }
   };
 
+  // 用於將原本的 tripData 上傳到 Firebase (只需按一次)
+   const uploadDataToFirebase = async () => {
+     try {
+       await setDoc(doc(db, "trips", "main_trip"), {
+         days: tripData // 這裡用你原本那個好長的 tripData 變數
+       });
+       alert("上傳成功！現在可以刪除這個按鈕了");
+     } catch (error) {
+       console.error("上傳失敗", error);
+       alert("上傳失敗");
+  }
+};
+  
   const deleteExpense = (id) => {
     setExpenses(expenses.filter(e => e.id !== id));
   };
@@ -617,6 +632,10 @@ export default function App() {
   const totalExpense = expenses.reduce((acc, curr) => acc + curr.cost, 0);
 
   return (
+    <button onClick={uploadDataToFirebase} className="bg-red-500 text-white p-2">
+  初始化資料庫 (只按一次)
+</button>
+    
     <div className="max-w-md mx-auto min-h-screen bg-[#FFF5F7] pb-28 font-sans">
       {/* Header */}
       <header className="sticky top-0 z-50 bg-white/85 backdrop-blur-md px-6 py-4 rounded-b-[2rem] shadow-sm border-b border-pink-100 flex justify-between items-center">
