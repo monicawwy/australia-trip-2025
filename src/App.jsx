@@ -593,8 +593,6 @@ const ActivityCard = ({ act, dayIndex, eventIndex, fullData }) => {
               <Navigation size={10} /> GO
             </button>
            )}
-        </div>
-      </div>
 
       {/* 標題區 + 鉛筆仔 */}
       <div className="flex items-center gap-2 mb-1">
