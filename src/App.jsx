@@ -655,9 +655,10 @@ export default function App() {
     
     <div className="max-w-md mx-auto min-h-screen bg-[#FFF5F7] pb-28 font-sans">
 
-     <button onClick={uploadDataToFirebase} className="bg-red-500 text-white p-2">
-       初始化資料庫 (只按一次)
-     </button>
+     {/* 刪除或註解以下三行，因為資料庫已初始化成功 */}
+      {/* <button onClick={uploadDataToFirebase} className="bg-red-500 text-white p-2">
+        初始化資料庫 (只按一次)
+      </button> */}
 
     {/* Header */}
       <header className="sticky top-0 z-50 bg-white/85 backdrop-blur-md px-6 py-4 rounded-b-[2rem] shadow-sm border-b border-pink-100 flex justify-between items-center">
