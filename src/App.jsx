@@ -491,9 +491,16 @@ const ActivityCard = ({ act, dayIndex, eventIndex, fullData }) => {
 
   // --- 顯示模式 vs 編輯模式 ---
   return (
-    <div className={`p-4 mb-3 rounded-2xl shadow-sm ${style} relative`}>
+    <div className={`p-4 mb-3 rounded-2xl shadow-sm ${style} relative transition-all active:scale-[0.98]`}>
+      {/* 1. 頂部：時間 + Icon + 右上角按鈕 */}
+      <div className="flex justify-between items-start mb-1">
+        <div className="flex items-center gap-2">
+          <span className="bg-white/90 px-2 py-0.5 rounded-md text-xs font-black text-gray-500 shadow-sm font-mono">{act.time}</span>
+          <Icon size={16} className="text-gray-600 opacity-70" />
+        </div>
       
       {/* 編輯按鈕 (右上角) */}
+      <div className="flex gap-1">
       <button 
         onClick={() => setIsEditing(!isEditing)} 
         className="absolute top-2 right-2 text-gray-400 hover:text-pink-500"
@@ -593,12 +600,14 @@ const ActivityCard = ({ act, dayIndex, eventIndex, fullData }) => {
               <Navigation size={10} /> GO
             </button>
            )}
+        </div>
+      </div>
 
       {/* 標題區 + 鉛筆仔 */}
       <div className="flex items-center gap-2 mb-1">
         <h4 className="font-bold text-gray-800 text-lg leading-tight">{act.title}</h4>
-        {/* 鉛筆按鈕：點擊開啟編輯 */}
-        <button onClick={() => setIsEditing(!isEditing)} className="text-gray-300 hover:text-pink-500 transition-colors">
+        {/* 鉛筆按鈕 */}
+        <button className="text-gray-300 hover:text-pink-500 transition-colors">
           <Pencil size={14} />
         </button>
       </div>
