@@ -1,5 +1,8 @@
 import { db } from './firebase'; // 引入剛剛建立的設定檔
 import { doc, setDoc, onSnapshot } from 'firebase/firestore';
+import { storage, db } from './firebase';
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { doc, updateDoc } from "firebase/firestore";
 import React, { useState, useEffect } from 'react';
 import { MapPin, Navigation, Calendar, Cloud, ChevronDown, Sun, CloudSnow, Wind, Utensils, Camera, Train, Plane, Home, Phone, Wallet, Info, Snowflake, ArrowRight, Plus, Trash2, RefreshCw, Pencil, FileText  } from 'lucide-react';
 
@@ -426,62 +429,162 @@ const HighlightText = ({ text }) => {
 };
 
 // --- 修改後的 ActivityCard ---
-const ActivityCard = ({ act }) => {
+const ActivityCard = ({ act, dayIndex, eventIndex, fullData }) => {
+  // 狀態管理
+  const [isEditing, setIsEditing] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
+  
+  // 暫存編輯中的資料
+  const [editData, setEditData] = useState({ ...act });
+
+  // 1. 處理儲存文字修改
+  const handleSave = async () => {
+    try {
+      // 複製一份完整的行程資料
+      const newData = [...fullData];
+      // 更新特定那天的特定活動
+      newData[dayIndex].events[eventIndex] = editData;
+
+      // 寫入 Firebase
+      await updateDoc(doc(db, "trips", "main_trip"), {
+        days: newData
+      });
+      
+      setIsEditing(false); // 關閉編輯模式
+    } catch (e) {
+      alert("儲存失敗: " + e.message);
+    }
+  };
+
+  // 2. 處理 PDF/圖片 上傳 (到 Firebase Storage)
+  const handleFileUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    setIsUploading(true);
+
+    try {
+      // 建立檔案路徑：files/時間_檔名
+      const storageRef = ref(storage, `files/${Date.now()}_${file.name}`);
+      
+      // 上傳
+      await uploadBytes(storageRef, file);
+      // 拿回網址
+      const url = await getDownloadURL(storageRef);
+
+      // 自動將網址填入去 editData 的 doc 欄位
+      setEditData(prev => ({ ...prev, doc: url }));
+      
+    } catch (error) {
+      alert("上傳失敗");
+      console.error(error);
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
+  // --- 樣式設定 (保持不變) ---
   let Icon = MapPin;
   let style = "border-l-4 border-gray-300 bg-white";
-  
   if (act.type === 'flight') { Icon = Plane; style = "border-l-4 border-blue-400 bg-blue-50"; }
   if (act.type === 'food') { Icon = Utensils; style = "border-l-4 border-orange-400 bg-orange-50"; }
   if (act.type === 'stay') { Icon = Home; style = "border-l-4 border-purple-400 bg-purple-50"; }
-  if (act.type === 'aurora') { Icon = Snowflake; style = "border-l-4 border-teal-400 bg-teal-50 shadow-md shadow-teal-100/50"; }
-  if (act.type === 'activity' || act.type === 'sight' || act.type === 'shop') { Icon = Camera; style = "border-l-4 border-pink-400 bg-pink-50"; }
   if (act.type === 'transport') { Icon = Train; style = "border-l-4 border-green-400 bg-green-50"; }
+  if (act.type === 'activity' || act.type === 'sight') { Icon = Camera; style = "border-l-4 border-pink-400 bg-pink-50"; }
 
-  // --- 新增功能：文件連結 ---
-  // 1. 嘗試從 LocalStorage 讀取舊紀錄 (用 unique ID: day + time + title 做 key)
-  const storageKey = `doc_${act.time}_${act.title}`;
-  const [docLink, setDocLink] = useState(localStorage.getItem(storageKey) || '');
-  const [isEditing, setIsEditing] = useState(false);
-  const [tempLink, setTempLink] = useState(docLink);
-
-  const handleSaveLink = () => {
-    setDocLink(tempLink);
-    if (tempLink) {
-      localStorage.setItem(storageKey, tempLink); // 儲存入電話記憶體
-    } else {
-      localStorage.removeItem(storageKey); // 如果清空就刪除紀錄
-    }
-    setIsEditing(false);
-  };
-
-  const handleNav = () => {
-    const query = act.nav || act.title;
-    if (query) {
-      window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`, '_blank');
-    }
-  };
-
+  // --- 顯示模式 vs 編輯模式 ---
   return (
-    <div className={`p-4 mb-3 rounded-2xl shadow-sm ${style} relative transition-all active:scale-[0.98]`}>
-      <div className="flex justify-between items-start mb-1">
-        <div className="flex items-center gap-2">
-          <span className="bg-white/90 px-2 py-0.5 rounded-md text-xs font-black text-gray-500 shadow-sm font-mono">{act.time}</span>
-          <Icon size={16} className="text-gray-600 opacity-70" />
-        </div>
-        
-        {/* 右上角按鈕區 */}
-        <div className="flex gap-1">
-         {/* 1. 文件按鈕 (優先讀取 Code 入面寫死嘅 doc，其次先讀鉛筆加嘅 docLink) */}
-         {(act.doc || docLink) && !isEditing && (
-         <a 
-          href={act.doc || docLink} // 優先用 act.doc
-          target="_blank" 
-          rel="noopener noreferrer" 
-          className="flex items-center gap-1 bg-yellow-400 text-yellow-900 px-2 py-1 rounded-full text-[10px] font-bold shadow hover:bg-yellow-500"
+    <div className={`p-4 mb-3 rounded-2xl shadow-sm ${style} relative`}>
+      
+      {/* 編輯按鈕 (右上角) */}
+      <button 
+        onClick={() => setIsEditing(!isEditing)} 
+        className="absolute top-2 right-2 text-gray-400 hover:text-pink-500"
+      >
+        <Pencil size={14} />
+      </button>
+
+      {isEditing ? (
+        // === 編輯模式 ===
+        <div className="space-y-3 animate-fadeIn">
+          <div className="text-xs font-bold text-gray-400">編輯活動</div>
+          
+          {/* 時間與標題 */}
+          <div className="flex gap-2">
+            <input 
+              className="w-1/3 border p-1 rounded text-xs" 
+              value={editData.time} 
+              onChange={e => setEditData({...editData, time: e.target.value})}
+            />
+            <input 
+              className="w-2/3 border p-1 rounded text-sm font-bold" 
+              value={editData.title} 
+              onChange={e => setEditData({...editData, title: e.target.value})}
+            />
+          </div>
+
+          {/* 描述 */}
+          <textarea 
+            className="w-full border p-1 rounded text-sm h-20"
+            value={editData.desc}
+            onChange={e => setEditData({...editData, desc: e.target.value})}
+          />
+
+          {/* 檔案上傳區 */}
+          <div className="flex items-center gap-2 bg-gray-50 p-2 rounded border border-dashed border-gray-300">
+             <label className="bg-white border px-2 py-1 rounded cursor-pointer text-xs font-bold flex items-center gap-1">
+               {isUploading ? <Loader2 className="animate-spin" size={12}/> : <Plus size={12}/>} 
+               上傳文件
+               <input type="file" className="hidden" onChange={handleFileUpload} disabled={isUploading}/>
+             </label>
+             {editData.doc && <span className="text-[10px] text-green-600 truncate max-w-[150px]">已連結文件</span>}
+          </div>
+
+          {/* 儲存按鈕 */}
+          <button 
+            onClick={handleSave} 
+            className="w-full bg-green-500 text-white py-1.5 rounded-lg text-sm font-bold shadow-md active:scale-95"
           >
-            <FileText size={10} /> 門票/文件
-     </a>
-    )}
+            儲存變更
+          </button>
+        </div>
+      ) : (
+        // === 顯示模式 (原本的樣子) ===
+        <>
+          <div className="flex justify-between items-start mb-1">
+            <div className="flex items-center gap-2">
+              <span className="bg-white/90 px-2 py-0.5 rounded-md text-xs font-black text-gray-500 font-mono">{act.time}</span>
+              <Icon size={16} className="text-gray-600 opacity-70" />
+            </div>
+            
+            <div className="flex gap-1 mr-6"> {/* mr-6 是為了避開編輯按鈕 */}
+               {/* 文件按鈕：如果有 editData.doc (Firebase 網址) 就顯示 */}
+               {act.doc && (
+                <a href={act.doc} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 bg-yellow-400 text-yellow-900 px-2 py-1 rounded-full text-[10px] font-bold shadow hover:bg-yellow-500">
+                  <FileText size={10} /> 文件
+                </a>
+               )}
+               {act.nav && (
+                <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(act.nav)}`} target="_blank" rel="noreferrer" className="flex items-center gap-1 bg-blue-500 text-white px-2.5 py-1 rounded-full text-[10px] font-bold shadow hover:bg-blue-600">
+                  <Navigation size={10} /> GO
+                </a>
+               )}
+            </div>
+          </div>
+
+          <h4 className="font-bold text-gray-800 text-lg leading-tight mb-1">{act.title}</h4>
+          <p className="text-sm text-gray-600 leading-relaxed"><HighlightText text={act.desc} /></p>
+          
+          {(act.highlight || act.tips) && (
+            <div className="mt-2 text-[11px] text-gray-500 bg-white/70 p-1.5 rounded-lg border border-gray-100 italic">
+               {act.highlight && <span className="mr-2 text-red-500 font-bold">★ {act.highlight}</span>}
+               {act.tips && <span>💡 {act.tips}</span>}
+            </div>
+          )}
+        </>
+      )}
+    </div>
+  );
+};
 
            {/* 2. 導航按鈕 */}
            {act.nav && (
@@ -539,6 +642,29 @@ const DayCard = ({ day, dayIndex, fullData }) => {
     setIsExpanded(!isExpanded);
   };
 
+// *** 新增：行程刪除/修改功能 ***
+    const deleteEvent = async (eventIndexToDelete) => {
+        if (!window.confirm("確定要刪除這項行程嗎？此操作不可逆！")) return;
+
+        // 1. 複製目前的完整行程資料
+        const newDays = [...fullData];
+
+        // 2. 在記憶體中，從這一天 (dayIndex) 的 events 陣列中刪除指定的活動 (eventIndexToDelete)
+        newDays[dayIndex].events.splice(eventIndexToDelete, 1);
+
+        // 3. 將整個新的行程陣列寫回 Firebase (使用 setDoc，因為它是最簡單和安全的)
+        try {
+            // trips 是集合名稱，main_trip 是文件名稱
+            await setDoc(doc(db, "trips", "main_trip"), {
+                days: newDays
+            });
+            alert("行程刪除成功！");
+        } catch (error) {
+            console.error("刪除失敗", error);
+            alert("刪除失敗。");
+        }
+    };
+      
   return (
     // 外層容器，設定圓角和陰影
     <div className="bg-white rounded-3xl shadow-lg border border-pink-100 overflow-hidden transition-all duration-300">
