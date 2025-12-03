@@ -1,5 +1,5 @@
 import { db, storage } from './firebase';
-import { doc, setDoc, onSnapshot, updateDoc, arrayRemove, arrayUnion } from 'firebase/firestore'; // <-- 所有函式
+import { doc as firestoreDoc, setDoc, onSnapshot, updateDoc, arrayRemove, arrayUnion } from 'firebase/firestore'; // <-- 所有函式
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import React, { useState, useEffect } from 'react';
 import { MapPin, Navigation, Calendar, Cloud, ChevronDown, Sun, CloudSnow, Wind, Utensils, Camera, Train, Plane, Home, Phone, Wallet, Info, Snowflake, ArrowRight, Plus, Trash2, RefreshCw, Pencil, FileText  } from 'lucide-react';
