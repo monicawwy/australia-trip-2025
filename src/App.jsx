@@ -530,7 +530,7 @@ const ActivityCard = ({ act }) => {
 };
 
 // --- 4. 每天行程卡片 (新增組件) ---
-const DayCard = ({ day }) => {
+const DayCard = ({ day, dayIndex, fullData }) => {
   // 1. 使用 State 追蹤卡片是否展開
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -603,6 +603,26 @@ export default function App() {
   const [expenses, setExpenses] = useState([]);
   const [newExpName, setNewExpName] = useState('');
   const [newExpCost, setNewExpCost] = useState('');
+  const [firebaseTripData, setFirebaseTripData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // *** 2. 新增：App 啟動時開始監聽 Firebase ***
+  useEffect(() => {
+    // 監聽 "trips" 集合裡的 "main_trip" 文件
+    const unsubscribe = onSnapshot(doc(db, "trips", "main_trip"), (docSnapshot) => {
+      if (docSnapshot.exists()) {
+        // 當雲端資料有變，這裡會自動執行
+        setFirebaseTripData(docSnapshot.data().days);
+      }
+      setLoading(false);
+    });
+
+    // 清除函式：當元件被移除時，停止監聽 (節省資源)
+    return () => unsubscribe(); 
+  }, []); // [] 代表只在 App 首次載入時執行一次
+  
+  // *** 新增：Loading 畫面處理 (防止資料未到就運行) ***
+  if (loading) return <div className="p-10 text-center text-gray-500 font-bold">載入行程中，請稍候...</div>;
 
   const addExpense = () => {
     if (newExpName && newExpCost) {
@@ -653,9 +673,14 @@ export default function App() {
         {/* --- TAB 1: 行程 (Trip) --- */}
         {tab === 'trip' && (
           <div className="space-y-8 animate-fadeIn">
-            {/* **改變在這裡：直接使用新的 DayCard 組件** */}
-            {tripData.map((day) => (
-              <DayCard key={day.day} day={day} />
+            {/* *** 替換資料來源並傳遞編輯用參數 *** */}
+            {firebaseTripData.map((day, dayIndex) => (
+              <DayCard 
+                 key={day.day} 
+                 day={day} 
+                 dayIndex={dayIndex}        // 新增：傳遞當前是第幾天 (從 0 開始)
+                 fullData={firebaseTripData} // 新增：傳遞完整的行程資料
+              />
             ))}
           </div>
         )}
