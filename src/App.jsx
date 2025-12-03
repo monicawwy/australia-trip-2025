@@ -586,11 +586,15 @@ const ActivityCard = ({ act, dayIndex, eventIndex, fullData }) => {
 
            {/* 2. 導航按鈕 */}
            {act.nav && (
-            <button onClick={handleNav} className="flex items-center gap-1 bg-blue-500 text-white px-2.5 py-1 rounded-full text-[10px] font-bold shadow hover:bg-blue-600">
+            <button 
+              // onClick={...} 
+              className="flex items-center gap-1 bg-blue-500 text-white px-2.5 py-1 rounded-full text-[10px] font-bold shadow hover:bg-blue-600"
+            >
               <Navigation size={10} /> GO
             </button>
            )}
         </div>
+      </div>
 
       {/* 標題區 + 鉛筆仔 */}
       <div className="flex items-center gap-2 mb-1">
