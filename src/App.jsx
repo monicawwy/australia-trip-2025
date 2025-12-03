@@ -1,8 +1,6 @@
-import { db } from './firebase'; // 引入剛剛建立的設定檔
-import { doc, setDoc, onSnapshot } from 'firebase/firestore';
-import { storage, db } from './firebase';
+import { db, storage } from './firebase';
+import { doc, setDoc, onSnapshot, updateDoc, arrayRemove, arrayUnion } from 'firebase/firestore'; // <-- 所有函式
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { doc, updateDoc } from "firebase/firestore";
 import React, { useState, useEffect } from 'react';
 import { MapPin, Navigation, Calendar, Cloud, ChevronDown, Sun, CloudSnow, Wind, Utensils, Camera, Train, Plane, Home, Phone, Wallet, Info, Snowflake, ArrowRight, Plus, Trash2, RefreshCw, Pencil, FileText  } from 'lucide-react';
 
