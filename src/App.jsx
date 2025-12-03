@@ -426,7 +426,7 @@ const HighlightText = ({ text }) => {
   );
 };
 
-// --- 修改後的 ActivityCard ---
+// --- 修改後的 ActivityCard (已修復括號問題) ---
 const ActivityCard = ({ act, dayIndex, eventIndex, fullData }) => {
   // 狀態管理
   const [isEditing, setIsEditing] = useState(false);
@@ -480,7 +480,7 @@ const ActivityCard = ({ act, dayIndex, eventIndex, fullData }) => {
     }
   };
 
-  // --- 樣式設定 (保持不變) ---
+  // --- 樣式設定 ---
   let Icon = MapPin;
   let style = "border-l-4 border-gray-300 bg-white";
   if (act.type === 'flight') { Icon = Plane; style = "border-l-4 border-blue-400 bg-blue-50"; }
@@ -489,28 +489,20 @@ const ActivityCard = ({ act, dayIndex, eventIndex, fullData }) => {
   if (act.type === 'transport') { Icon = Train; style = "border-l-4 border-green-400 bg-green-50"; }
   if (act.type === 'activity' || act.type === 'sight') { Icon = Camera; style = "border-l-4 border-pink-400 bg-pink-50"; }
 
-  // --- 顯示模式 vs 編輯模式 ---
   return (
     <div className={`p-4 mb-3 rounded-2xl shadow-sm ${style} relative transition-all active:scale-[0.98]`}>
-      {/* 1. 頂部：時間 + Icon + 右上角按鈕 */}
-      <div className="flex justify-between items-start mb-1">
-        <div className="flex items-center gap-2">
-          <span className="bg-white/90 px-2 py-0.5 rounded-md text-xs font-black text-gray-500 shadow-sm font-mono">{act.time}</span>
-          <Icon size={16} className="text-gray-600 opacity-70" />
-        </div>
       
       {/* 編輯按鈕 (右上角) */}
-      <div className="flex gap-1">
       <button 
         onClick={() => setIsEditing(!isEditing)} 
-        className="absolute top-2 right-2 text-gray-400 hover:text-pink-500"
+        className="absolute top-2 right-2 text-gray-400 hover:text-pink-500 z-10"
       >
         <Pencil size={14} />
       </button>
 
       {isEditing ? (
         // === 編輯模式 ===
-        <div className="space-y-3 animate-fadeIn">
+        <div className="space-y-3 animate-fadeIn pt-4">
           <div className="text-xs font-bold text-gray-400">編輯活動</div>
           
           {/* 時間與標題 */}
@@ -519,11 +511,13 @@ const ActivityCard = ({ act, dayIndex, eventIndex, fullData }) => {
               className="w-1/3 border p-1 rounded text-xs" 
               value={editData.time} 
               onChange={e => setEditData({...editData, time: e.target.value})}
+              placeholder="時間"
             />
             <input 
               className="w-2/3 border p-1 rounded text-sm font-bold" 
               value={editData.title} 
               onChange={e => setEditData({...editData, title: e.target.value})}
+              placeholder="標題"
             />
           </div>
 
@@ -532,52 +526,71 @@ const ActivityCard = ({ act, dayIndex, eventIndex, fullData }) => {
             className="w-full border p-1 rounded text-sm h-20"
             value={editData.desc}
             onChange={e => setEditData({...editData, desc: e.target.value})}
+            placeholder="活動描述"
           />
 
           {/* 檔案上傳區 */}
           <div className="flex items-center gap-2 bg-gray-50 p-2 rounded border border-dashed border-gray-300">
-             <label className="bg-white border px-2 py-1 rounded cursor-pointer text-xs font-bold flex items-center gap-1">
-               {isUploading ? <Loader2 className="animate-spin" size={12}/> : <Plus size={12}/>} 
+             <label className="bg-white border px-2 py-1 rounded cursor-pointer text-xs font-bold flex items-center gap-1 hover:bg-gray-50">
+               {isUploading ? <RefreshCw className="animate-spin" size={12}/> : <Plus size={12}/>} 
                上傳文件
                <input type="file" className="hidden" onChange={handleFileUpload} disabled={isUploading}/>
              </label>
-             {editData.doc && <span className="text-[10px] text-green-600 truncate max-w-[150px]">已連結文件</span>}
+             {editData.doc ? (
+               <span className="text-[10px] text-green-600 truncate flex-1">✅ 已連結文件</span>
+             ) : (
+               <span className="text-[10px] text-gray-400">未上傳文件</span>
+             )}
           </div>
 
           {/* 儲存按鈕 */}
-          <button 
-            onClick={handleSave} 
-            className="w-full bg-green-500 text-white py-1.5 rounded-lg text-sm font-bold shadow-md active:scale-95"
-          >
-            儲存變更
-          </button>
+          <div className="flex gap-2">
+            <button 
+              onClick={handleSave} 
+              className="flex-1 bg-green-500 text-white py-1.5 rounded-lg text-sm font-bold shadow-md active:scale-95 hover:bg-green-600"
+            >
+              儲存變更
+            </button>
+            <button 
+              onClick={() => setIsEditing(false)} 
+              className="px-3 bg-gray-200 text-gray-600 py-1.5 rounded-lg text-sm font-bold active:scale-95 hover:bg-gray-300"
+            >
+              取消
+            </button>
+          </div>
         </div>
       ) : (
         // === 顯示模式 (原本的樣子) ===
         <>
           <div className="flex justify-between items-start mb-1">
             <div className="flex items-center gap-2">
-              <span className="bg-white/90 px-2 py-0.5 rounded-md text-xs font-black text-gray-500 font-mono">{act.time}</span>
+              <span className="bg-white/90 px-2 py-0.5 rounded-md text-xs font-black text-gray-500 shadow-sm font-mono">{act.time}</span>
               <Icon size={16} className="text-gray-600 opacity-70" />
             </div>
             
-            <div className="flex gap-1 mr-6"> {/* mr-6 是為了避開編輯按鈕 */}
-               {/* 文件按鈕：如果有 editData.doc (Firebase 網址) 就顯示 */}
+            {/* 顯示文件與導航按鈕 */}
+            <div className="flex gap-1 mr-6">
                {act.doc && (
-                <a href={act.doc} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 bg-yellow-400 text-yellow-900 px-2 py-1 rounded-full text-[10px] font-bold shadow hover:bg-yellow-500">
+                <a href={act.doc} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 bg-yellow-400 text-yellow-900 px-2 py-1 rounded-full text-[10px] font-bold shadow hover:bg-yellow-500 transition-transform hover:scale-105">
                   <FileText size={10} /> 文件
                 </a>
                )}
                {act.nav && (
-                <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(act.nav)}`} target="_blank" rel="noreferrer" className="flex items-center gap-1 bg-blue-500 text-white px-2.5 py-1 rounded-full text-[10px] font-bold shadow hover:bg-blue-600">
+                <button 
+                  onClick={() => window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(act.nav)}`, '_blank')} 
+                  className="flex items-center gap-1 bg-blue-500 text-white px-2.5 py-1 rounded-full text-[10px] font-bold shadow hover:bg-blue-600 transition-transform hover:scale-105"
+                >
                   <Navigation size={10} /> GO
-                </a>
+                </button>
                )}
             </div>
           </div>
 
           <h4 className="font-bold text-gray-800 text-lg leading-tight mb-1">{act.title}</h4>
-          <p className="text-sm text-gray-600 leading-relaxed"><HighlightText text={act.desc} /></p>
+          
+          <div className="text-sm text-gray-600 leading-relaxed">
+            <HighlightText text={act.desc} />
+          </div>
           
           {(act.highlight || act.tips) && (
             <div className="mt-2 text-[11px] text-gray-500 bg-white/70 p-1.5 rounded-lg border border-gray-100 italic">
@@ -586,55 +599,6 @@ const ActivityCard = ({ act, dayIndex, eventIndex, fullData }) => {
             </div>
           )}
         </>
-      )}
-    </div>
-  );
-};
-
-           {/* 2. 導航按鈕 */}
-           {act.nav && (
-            <button 
-              // onClick={...} 
-              className="flex items-center gap-1 bg-blue-500 text-white px-2.5 py-1 rounded-full text-[10px] font-bold shadow hover:bg-blue-600"
-            >
-              <Navigation size={10} /> GO
-            </button>
-           )}
-        </div>
-      </div>
-
-      {/* 標題區 + 鉛筆仔 */}
-      <div className="flex items-center gap-2 mb-1">
-        <h4 className="font-bold text-gray-800 text-lg leading-tight">{act.title}</h4>
-        {/* 鉛筆按鈕 */}
-        <button className="text-gray-300 hover:text-pink-500 transition-colors">
-          <Pencil size={14} />
-        </button>
-      </div>
-
-      {/* 編輯模式輸入框 (只有按鉛筆才出現) */}
-      {isEditing && (
-        <div className="mb-2 flex gap-2 animate-fadeIn">
-          <input 
-            type="text" 
-            placeholder="貼上 PDF/圖片 連結 (如 Google Drive)" 
-            value={tempLink}
-            onChange={(e) => setTempLink(e.target.value)}
-            className="flex-1 text-xs p-2 border border-pink-200 rounded-lg bg-pink-50 focus:outline-pink-400"
-          />
-          <button onClick={handleSaveLink} className="bg-pink-500 text-white text-xs px-3 rounded-lg font-bold">儲存</button>
-        </div>
-      )}
-
-      <p className="text-sm text-gray-600 leading-relaxed">
-        <HighlightText text={act.desc} />
-      </p>
-      {(act.highlight || act.note || act.tips) && (
-        <div className="mt-2 text-[11px] text-gray-500 bg-white/70 p-1.5 rounded-lg border border-gray-100 italic">
-          {act.highlight && <span className="mr-2 text-red-500 font-bold">重點: {act.highlight}</span>}
-          {act.note && <span className="mr-2">📝 {act.note}</span>}
-          {act.tips && <span className="mr-2">💡 {act.tips}</span>}
-        </div>
       )}
     </div>
   );
