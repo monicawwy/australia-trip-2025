@@ -75,8 +75,8 @@ const tripData = [
       { time: "17:15 - 17:45", type: "sight", title: "Kiama Blowhole", desc: "噴水洞，浪大時最壯觀。", nav: "Kiama Blowhole" },
       { time: "17:45 - 18:15", type: "transport", title: "自駕去 Saddleback Mt", desc: "車程 15min (9km)。", nav: "Saddleback Mountain Lookout" },
       { time: "18:15 - 18:45", type: "sight", title: "Saddleback Mt Lookout", desc: "俯瞰 Kiama，觀賞日落。", nav: "Saddleback Mountain Lookout" },
-      { time: "18:45 - 19:45", type: "transport", title: "自駕去 Balgownie", desc: "車程 50min (43km)。", nav: "Balgownie, NSW" },
-      { time: "19:45 - 20:00", type: "stay", title: "入住 Airbnb Balgownie", desc: "舒適住宿 (HK$900)。", nav: "Balgownie, NSW", note: "需確認入住時間。" },
+      { time: "18:45 - 19:45", type: "transport", title: "自駕去 Balgownie BnB", desc: "車程 50min (43km)。", nav: "20 Church St, Balgownie NSW 2519, Australia" },
+      { time: "19:45 - 20:00", type: "stay", title: "入住 Airbnb Balgownie", desc: "舒適住宿 (HK$900)。", nav: "20 Church St, Balgownie NSW 2519, Australia", note: "需確認入住時間。" },
       { time: "20:00 - 21:30", type: "food", title: "The Lagoon Seafood", desc: "海鮮晚餐 (HK$200)。", nav: "The Lagoon Seafood Restaurant", highlight: "海鮮新鮮" }
     ]
   },
@@ -235,16 +235,16 @@ const infoData = {
     { date: "01/05", route: "莫爾茲比港 POM ➔ 香港 HKG", code: "PX008", time: "14:55 - 19:35" }
   ],
   hotels: [
-    { name: "Meriton Suites Mascot Central", city: "Sydney", nights: "1晚", note: "已付, Agoda" },
-    { name: "lyf Bondi Junction", city: "Sydney", nights: "1晚", note: "已付, booking.com" },
-    { name: "Airbnb Balgownie", city: "Sydney", nights: "1晚", note: "已付, Airbnb" },
-    { name: "Mercure Goulburn", city: "Sydney", nights: "1晚", note: "已付, Agoda" },
-    { name: "Fairmont Resort & Spa Blue Mountains", city: "Sydney", nights: "1晚", note: "已付, Agoda" },
-    { name: "Royal Albert Hotel", city: "Brisbane", nights: "1晚", note: "已付, booking.com" },
-    { name: "Mercure Gold Coast", city: "Brisbane", nights: "1晚", note: "已付, Agoda" },
-    { name: "Wynnum Anchor Quay", city: "Brisbane", nights: "1晚", note: "已付, booking.com" },
-    { name: "Tin Can Bay Motel", city: "Brisbane", nights: "1晚", note: "已付, booking.com" },
-    { name: "Capri Fraser Brisbane", city: "Brisbane", nights: "2晚", note: "已付, Trip.com" },
+    { name: "Meriton Suites Mascot Central", city: "Sydney", nights: "1晚", note: "到店付款 HKD 1,101, Agoda" },
+    { name: "lyf Bondi Junction", city: "Sydney", nights: "1晚", note: "已付 AUD 150, booking.com" },
+    { name: "Airbnb Balgownie", city: "Sydney", nights: "1晚", note: "已付 HKD 877, Airbnb" },
+    { name: "Mercure Goulburn", city: "Sydney", nights: "1晚", note: "已付 AUD 155.21, Agoda" },
+    { name: "Fairmont Resort & Spa Blue Mountains", city: "Sydney", nights: "1晚", note: "已付 AUD 293, Agoda" },
+    { name: "Royal Albert Hotel", city: "Brisbane", nights: "1晚", note: "已付 AUD 169, booking.com" },
+    { name: "Mercure Gold Coast", city: "Brisbane", nights: "1晚", note: "已付 HKD 1,368, Agoda" },
+    { name: "Wynnum Anchor Quay", city: "Brisbane", nights: "1晚", note: "已付 AUD 171, booking.com" },
+    { name: "Tin Can Bay Motel", city: "Brisbane", nights: "1晚", note: "已付 AUD 163, booking.com" },
+    { name: "Capri Fraser Brisbane", city: "Brisbane", nights: "2晚", note: "已付 HKD 1,400, Trip.com" },
   ]
 };
 
