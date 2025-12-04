@@ -1,5 +1,5 @@
 import { db, storage } from './firebase';
-import { doc, setDoc, onSnapshot, updateDoc, arrayRemove, arrayUnion } from 'firebase/firestore'; // <-- 所有函式
+import { doc, setDoc, onSnapshot, updateDoc, arrayRemove, arrayUnion, addDoc, deleteDoc, collection, query, orderBy } from 'firebase/firestore'; // <-- 所有函式
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import React, { useState, useEffect } from 'react';
 import { MapPin, Navigation, Calendar, Cloud, ChevronDown, Sun, CloudSnow, Wind, Utensils, Camera, Train, Plane, Home, Phone, Wallet, Info, Snowflake, ArrowRight, Plus, Trash2, RefreshCw, Pencil, FileText  } from 'lucide-react';
@@ -701,6 +701,22 @@ export default function App() {
       setLoading(false);
     });
 
+    // 監聽 Firebase 的 "expenses" 集合
+useEffect(() => {
+  // 建立查詢：去 "expenses" 集合，並按時間 (createdAt) 倒序排列 (新嘅排上面)
+  const q = query(collection(db, "expenses"), orderBy("createdAt", "desc"));
+  
+  const unsubscribe = onSnapshot(q, (snapshot) => {
+    const newExpenses = snapshot.docs.map(doc => ({
+      id: doc.id, // Firebase 會有一個唯一的 ID
+      ...doc.data()
+    }));
+    setExpenses(newExpenses);
+  });
+
+  return () => unsubscribe();
+}, []);
+
     // 清除函式：當元件被移除時，停止監聽 (節省資源)
     return () => unsubscribe(); 
   }, []); // [] 代表只在 App 首次載入時執行一次
@@ -708,13 +724,24 @@ export default function App() {
   // *** 新增：Loading 畫面處理 (防止資料未到就運行) ***
   if (loading) return <div className="p-10 text-center text-gray-500 font-bold">載入行程中，請稍候...</div>;
 
-  const addExpense = () => {
-    if (newExpName && newExpCost) {
-      setExpenses([...expenses, { id: Date.now(), name: newExpName, cost: parseFloat(newExpCost) }]);
+  const addExpense = async () => {
+  if (newExpName && newExpCost) {
+    try {
+      // 🔥 寫入 Firebase
+      await addDoc(collection(db, "expenses"), {
+        name: newExpName,
+        cost: parseFloat(newExpCost),
+        createdAt: Date.now() // 加個時間印，方便排序
+      });
+      
+      // 清空輸入框
       setNewExpName('');
       setNewExpCost('');
+    } catch (e) {
+      alert("記帳失敗: " + e.message);
     }
-  };
+  }
+};
 
   // 用於將原本的 tripData 上傳到 Firebase (只需按一次)
    const uploadDataToFirebase = async () => {
@@ -729,9 +756,16 @@ export default function App() {
   }
 };
   
-  const deleteExpense = (id) => {
-    setExpenses(expenses.filter(e => e.id !== id));
-  };
+  const deleteExpense = async (id) => {
+  if(!window.confirm("確定刪除這筆數？")) return; // 加個確認，費事手殘
+  
+  try {
+    // 🔥 通知 Firebase 刪除該 ID 的文件
+    await deleteDoc(doc(db, "expenses", id));
+  } catch (e) {
+    alert("刪除失敗: " + e.message);
+  }
+};
 
   const totalExpense = expenses.reduce((acc, curr) => acc + curr.cost, 0);
 
