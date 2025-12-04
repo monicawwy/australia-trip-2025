@@ -589,10 +589,17 @@ const DayCard = ({ day, dayIndex, fullData }) => {
   // 1. 使用 State 追蹤卡片是否展開
   const [isExpanded, setIsExpanded] = useState(false);
 
-  // 2. 處理點擊事件：切換 isExpanded 的狀態
-  const toggleExpand = () => {
-    setIsExpanded(!isExpanded);
-  };
+ // --- ✨ 新增：新增活動表單的狀態 ---
+  const [isAdding, setIsAdding] = useState(false); // 控制表單開關
+  const [newEvent, setNewEvent] = useState({
+    time: "",
+    title: "",
+    type: "sight", // 預設類型
+    desc: "",
+    nav: ""
+  });
+
+  const toggleExpand = () => setIsExpanded(!isExpanded);
 
 // *** 新增：行程刪除/修改功能 ***
     const deleteEvent = async (eventIndexToDelete) => {
@@ -616,7 +623,37 @@ const DayCard = ({ day, dayIndex, fullData }) => {
             alert("刪除失敗。");
         }
     };
+
+ // --- ✨ 新增：處理新增活動 ---
+  const handleAddEvent = async () => {
+    if (!newEvent.title || !newEvent.time) {
+      alert("請最少填寫時間和標題！");
+      return;
+    }
+
+    try {
+      // 1. 複製現有的行程資料
+      const newDays = [...fullData];
       
+      // 2. 將新活動加到當天 (dayIndex) 的 events 陣列最後面
+      newDays[dayIndex].events.push(newEvent);
+
+      // 3. 寫入 Firebase
+      await updateDoc(doc(db, "trips", "main_trip"), {
+        days: newDays
+      });
+
+      // 4. 重置表單
+      setIsAdding(false);
+      setNewEvent({ time: "", title: "", type: "sight", desc: "", nav: "" });
+      alert("活動新增成功！");
+      
+    } catch (e) {
+      console.error("新增失敗", e);
+      alert("新增失敗: " + e.message);
+    }
+  };
+  
   return (
     // 外層容器，設定圓角和陰影
     <div className="bg-white rounded-3xl shadow-lg border border-pink-100 overflow-hidden transition-all duration-300">
@@ -674,6 +711,85 @@ const DayCard = ({ day, dayIndex, fullData }) => {
              />
             ))}
            </div>
+
+       {/* --- ✨ 新增：新增活動按鈕與表單 --- */}
+        <div className="mt-4 border-t border-dashed border-pink-200 pt-4">
+          {!isAdding ? (
+            <button 
+              onClick={() => setIsAdding(true)}
+              className="w-full py-2 bg-pink-50 text-pink-500 rounded-xl border border-pink-200 font-bold text-sm hover:bg-pink-100 flex justify-center items-center gap-2 transition-all"
+            >
+              <Plus size={16} /> 新增行程
+            </button>
+          ) : (
+            <div className="bg-gray-50 p-3 rounded-xl border border-gray-200 animate-fadeIn">
+              <h5 className="font-bold text-gray-500 mb-2 text-xs">填寫新活動資料</h5>
+              
+              <div className="space-y-2">
+                {/* 第一行：時間 + 類型 */}
+                <div className="flex gap-2">
+                  <input 
+                    placeholder="時間 (e.g. 14:00)" 
+                    className="w-1/3 p-2 rounded border text-sm"
+                    value={newEvent.time}
+                    onChange={e => setNewEvent({...newEvent, time: e.target.value})}
+                  />
+                  <select 
+                    className="w-2/3 p-2 rounded border text-sm bg-white"
+                    value={newEvent.type}
+                    onChange={e => setNewEvent({...newEvent, type: e.target.value})}
+                  >
+                    <option value="sight">📸 景點 (Sight)</option>
+                    <option value="food">🍴 餐廳 (Food)</option>
+                    <option value="shop">🛍️ 購物 (Shop)</option>
+                    <option value="transport">🚆 交通 (Transport)</option>
+                    <option value="stay">🏨 住宿 (Stay)</option>
+                  </select>
+                </div>
+
+                {/* 第二行：標題 */}
+                <input 
+                  placeholder="活動標題 (e.g. 食海鮮)" 
+                  className="w-full p-2 rounded border text-sm font-bold"
+                  value={newEvent.title}
+                  onChange={e => setNewEvent({...newEvent, title: e.target.value})}
+                />
+
+                {/* 第三行：描述 */}
+                <textarea 
+                  placeholder="詳細描述 / 備註 / 價錢..." 
+                  className="w-full p-2 rounded border text-sm h-16"
+                  value={newEvent.desc}
+                  onChange={e => setNewEvent({...newEvent, desc: e.target.value})}
+                />
+
+                 {/* 第四行：導航地址 (Google Maps) */}
+                 <input 
+                  placeholder="導航地址 (選填)" 
+                  className="w-full p-2 rounded border text-sm bg-blue-50"
+                  value={newEvent.nav}
+                  onChange={e => setNewEvent({...newEvent, nav: e.target.value})}
+                />
+
+                {/* 按鈕區 */}
+                <div className="flex gap-2 pt-2">
+                  <button 
+                    onClick={() => setIsAdding(false)}
+                    className="flex-1 py-1.5 bg-gray-200 text-gray-600 rounded-lg text-xs font-bold"
+                  >
+                    取消
+                  </button>
+                  <button 
+                    onClick={handleAddEvent}
+                    className="flex-1 py-1.5 bg-pink-500 text-white rounded-lg text-xs font-bold shadow-md"
+                  >
+                    確認新增
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>            
           </div>
         )}
       </div>
