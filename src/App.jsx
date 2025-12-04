@@ -480,6 +480,37 @@ const ActivityCard = ({ act, dayIndex, eventIndex, fullData }) => {
     }
   };
 
+  // --- ✨ 新增：3. 處理移動順序 (方向: -1 為上移, +1 為下移) ---
+  const handleMove = async (direction) => {
+    // 1. 計算新位置
+    const newIndex = eventIndex + direction;
+
+    // 2. 檢查是否越界 (例如已經係第一項仲想上移，或者最後一項想下移)
+    const currentDayEvents = fullData[dayIndex].events;
+    if (newIndex < 0 || newIndex >= currentDayEvents.length) return;
+
+    try {
+      // 3. 複製資料
+      const newDays = [...fullData];
+      const dayEvents = newDays[dayIndex].events;
+
+      // 4. 交換位置 (Swap)
+      const temp = dayEvents[eventIndex];
+      dayEvents[eventIndex] = dayEvents[newIndex];
+      dayEvents[newIndex] = temp;
+
+      // 5. 寫入 Firebase (同步俾所有人)
+      await updateDoc(doc(db, "trips", "main_trip"), {
+        days: newDays
+      });
+      
+      // 提示：因為 Firebase 監聽會自動更新畫面，所以我地唔駛手動 set State
+    } catch (e) {
+      console.error("移動失敗", e);
+      alert("移動失敗");
+    }
+  };
+
   // --- 樣式設定 (保持不變) ---
   let Icon = MapPin;
   let style = "border-l-4 border-gray-300 bg-white";
@@ -537,6 +568,25 @@ const ActivityCard = ({ act, dayIndex, eventIndex, fullData }) => {
              {editData.doc && <span className="text-[10px] text-green-600 truncate max-w-[150px]">已連結文件</span>}
           </div>
 
+          {/* --- ✨ 新增：移動順序按鈕區 --- */}
+          <div className="flex gap-2 mb-2">
+             <button 
+               onClick={() => handleMove(-1)} // -1 代表上移
+               disabled={eventIndex === 0}    // 如果係第一個，就鎖住唔俾撳
+               className="flex-1 py-2 bg-blue-50 text-blue-600 rounded-lg text-xs font-bold border border-blue-100 hover:bg-blue-100 disabled:opacity-50 disabled:cursor-not-allowed flex justify-center items-center gap-1"
+             >
+               ⬆️ 上移
+             </button>
+             
+             <button 
+               onClick={() => handleMove(1)}  // 1 代表下移
+               disabled={eventIndex === fullData[dayIndex].events.length - 1} // 如果係最後一個，就鎖住
+               className="flex-1 py-2 bg-blue-50 text-blue-600 rounded-lg text-xs font-bold border border-blue-100 hover:bg-blue-100 disabled:opacity-50 disabled:cursor-not-allowed flex justify-center items-center gap-1"
+             >
+               ⬇️ 下移
+             </button>
+          </div>
+          
           {/* 儲存按鈕 */}
           <button 
             onClick={handleSave} 
