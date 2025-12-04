@@ -2,7 +2,7 @@ import { db, storage } from './firebase';
 import { doc, setDoc, onSnapshot, updateDoc, arrayRemove, arrayUnion, addDoc, deleteDoc, collection, query, orderBy } from 'firebase/firestore'; // <-- 所有函式
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import React, { useState, useEffect } from 'react';
-import { MapPin, Navigation, Calendar, Cloud, ChevronDown, Sun, CloudSnow, Wind, Utensils, Camera, Train, Plane, Home, Phone, Wallet, Info, Snowflake, ArrowRight, Plus, Trash2, RefreshCw, Pencil, FileText  } from 'lucide-react';
+import { MapPin, Navigation, Calendar, Cloud, ChevronDown, Sun, CloudSnow, Wind, Utensils, Camera, Train, Plane, Home, Phone, Wallet, Info, Snowflake, ArrowRight, Plus, Trash2, RefreshCw, Pencil, FileText, Loader2 } from 'lucide-react';
 
 // --- 1. 地點座標 (用於即時天氣 API) ---
 const LOCATIONS = {
