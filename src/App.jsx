@@ -664,10 +664,16 @@ const DayCard = ({ day, dayIndex, fullData }) => {
           <div className="pt-4 border-t border-pink-100">
             <h4 className="text-md font-bold text-gray-700 mb-3 ml-2">今日行程 ({day.events.length} 項活動)</h4>
             <div className="space-y-3">
-              {day.events.map((act, i) => (
-                <ActivityCard key={i} act={act} />
-              ))}
-            </div>
+             {day.events.map((act, i) => (
+             <ActivityCard 
+             key={i} 
+             act={act} 
+             dayIndex={dayIndex}        // 傳入：這是第幾天
+             eventIndex={i}             // 傳入：這是當天的第幾個活動 (i 就是 eventIndex)
+             fullData={fullData}        // 傳入：完整的行程資料 (用於儲存時更新)
+             />
+            ))}
+           </div>
           </div>
         )}
       </div>
