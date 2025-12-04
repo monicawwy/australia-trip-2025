@@ -690,7 +690,7 @@ export default function App() {
   const [firebaseTripData, setFirebaseTripData] = useState([]);
   const [loading, setLoading] = useState(true);
 
-    // --- 監聽 1: 行程資料 (Trips) ---
+      // *** 2. 新增：App 啟動時開始監聽 Firebase (Trips) ***
   useEffect(() => {
     const unsubscribe = onSnapshot(doc(db, "trips", "main_trip"), (docSnapshot) => {
       if (docSnapshot.exists()) {
@@ -701,9 +701,8 @@ export default function App() {
     return () => unsubscribe(); 
   }, []);
 
-  // --- 監聽 2: 記帳資料 (Expenses) ---
+  // *** 3. 新增：監聽 Firebase (Expenses) ***
   useEffect(() => {
-    // 這裡記得要 import collection, query, orderBy
     const q = query(collection(db, "expenses"), orderBy("createdAt", "desc"));
     
     const unsubscribe = onSnapshot(q, (snapshot) => {
@@ -716,10 +715,6 @@ export default function App() {
 
     return () => unsubscribe();
   }, []);
-
-    // 清除函式：當元件被移除時，停止監聽 (節省資源)
-    return () => unsubscribe(); 
-  }, []); // [] 代表只在 App 首次載入時執行一次
   
   // *** 新增：Loading 畫面處理 (防止資料未到就運行) ***
   if (loading) return <div className="p-10 text-center text-gray-500 font-bold">載入行程中，請稍候...</div>;
