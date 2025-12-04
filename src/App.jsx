@@ -690,32 +690,32 @@ export default function App() {
   const [firebaseTripData, setFirebaseTripData] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // *** 2. 新增：App 啟動時開始監聽 Firebase ***
+    // --- 監聽 1: 行程資料 (Trips) ---
   useEffect(() => {
-    // 監聽 "trips" 集合裡的 "main_trip" 文件
     const unsubscribe = onSnapshot(doc(db, "trips", "main_trip"), (docSnapshot) => {
       if (docSnapshot.exists()) {
-        // 當雲端資料有變，這裡會自動執行
         setFirebaseTripData(docSnapshot.data().days);
       }
       setLoading(false);
     });
+    return () => unsubscribe(); 
+  }, []);
 
-    // 監聽 Firebase 的 "expenses" 集合
-useEffect(() => {
-  // 建立查詢：去 "expenses" 集合，並按時間 (createdAt) 倒序排列 (新嘅排上面)
-  const q = query(collection(db, "expenses"), orderBy("createdAt", "desc"));
-  
-  const unsubscribe = onSnapshot(q, (snapshot) => {
-    const newExpenses = snapshot.docs.map(doc => ({
-      id: doc.id, // Firebase 會有一個唯一的 ID
-      ...doc.data()
-    }));
-    setExpenses(newExpenses);
-  });
+  // --- 監聽 2: 記帳資料 (Expenses) ---
+  useEffect(() => {
+    // 這裡記得要 import collection, query, orderBy
+    const q = query(collection(db, "expenses"), orderBy("createdAt", "desc"));
+    
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const newExpenses = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+      setExpenses(newExpenses);
+    });
 
-  return () => unsubscribe();
-}, []);
+    return () => unsubscribe();
+  }, []);
 
     // 清除函式：當元件被移除時，停止監聽 (節省資源)
     return () => unsubscribe(); 
