@@ -48,9 +48,9 @@ const tripData = [
       { time: "15:15 - 16:00", type: "transport", title: "前往機場取車", desc: "搭的士去 Simba Car Hire (HK$100)。", nav: "Simba Car Hire Sydney Airport", note: "檢查車況並拍照。" },
       { time: "16:00 - 17:00", type: "transport", title: "自駕去 Bondi Beach", desc: "油費約 HK$50。", nav: "Bondi Beach", tips: "實際車程 15min。" },
       { time: "17:00 - 18:15", type: "sight", title: "Bondi to Coogee Walk", desc: "海濱步道 (Expensive Parking)。", nav: "Bondi to Coogee Walk", tips: "夏季熱/人多，注意防曬。" },
-      { time: "18:15 - 18:45", type: "transport", title: "自駕去 lyf Bondi Junction", desc: "前往住宿點 (No Parking)。", nav: "lyf Bondi Junction Sydney" },
-      { time: "18:45 - 19:00", type: "stay", title: "入住 lyf Bondi Junction", desc: "95-97 Oxford St (HK$800)。", nav: "lyf Bondi Junction Sydney", note: "位置方便，評價4.2/5。" },
-      { time: "19:00 - 21:00", type: "food", title: "Icebergs Dining Room", desc: "絕美海景晚餐 (HK$300)。", nav: "Icebergs Dining Room and Bar", highlight: "需預約", tips: "海景佳。" }
+      { time: "18:15 - 20:00", type: "food", title: "Icebergs Dining Room", desc: "絕美海景晚餐 (HK$300)。", nav: "Icebergs Dining Room and Bar", highlight: "需預約", tips: "海景佳。" }
+      { time: "20:00 - 20:30", type: "transport", title: "自駕去 lyf Bondi Junction", desc: "前往住宿點 (No Parking)。", nav: "lyf Bondi Junction Sydney" },
+      { time: "20:30 - 20:45", type: "stay", title: "入住 lyf Bondi Junction", desc: "95-97 Oxford St (HK$800)。", nav: "lyf Bondi Junction Sydney", note: "位置方便，評價4.2/5。" },
     ]
   },
   {
