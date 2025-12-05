@@ -464,18 +464,41 @@ const ActivityCard = ({ act, dayIndex, eventIndex, fullData }) => {
 
   // 3. 處理移動順序
   const handleMove = async (direction) => {
+    // 1. 先用 Firebase 最新的資料 (Snapshot) 確保資料是最新的
+    // 這裡我們無法直接調用 Firebase 獲取最新，只能依賴 props 傳進來的 fullData
+    // 但為了解決閉包問題，我們用 JSON parse/stringify 確保切斷引用
+    
     const newIndex = eventIndex + direction;
     const currentDayEvents = fullData[dayIndex].events;
+
     if (newIndex < 0 || newIndex >= currentDayEvents.length) return;
+
     try {
+      // ✅ 1. 深層複製
       const newDays = JSON.parse(JSON.stringify(fullData));
+      
       const dayEvents = newDays[dayIndex].events;
-      const temp = dayEvents[eventIndex];
-      dayEvents[eventIndex] = dayEvents[newIndex];
-      dayEvents[newIndex] = temp;
-      await updateDoc(doc(db, "trips", "main_trip"), { days: newDays });
+
+      // ✅ 2. 打印出來檢查 (Debug)
+      console.log("交換前:", dayEvents[eventIndex].title, "<->", dayEvents[newIndex].title);
+
+      // ✅ 3. 交換 (Swap) - 使用解構賦值，更安全
+      [dayEvents[eventIndex], dayEvents[newIndex]] = [dayEvents[newIndex], dayEvents[eventIndex]];
+
+      // ✅ 4. 打印出來檢查
+      console.log("交換後:", dayEvents[eventIndex].title, "<->", dayEvents[newIndex].title);
+
+      // ✅ 5. 寫入 Firebase
+      await updateDoc(doc(db, "trips", "main_trip"), {
+        days: newDays
+      });
+      
+      // ✨ 關鍵修復：這裡我們不手動修改 React State，
+      // 而是讓 Firebase 的 onSnapshot 自動觸發重新渲染。
+      
     } catch (e) {
       console.error("移動失敗", e);
+      alert("移動失敗: " + e.message);
     }
   };
 
@@ -494,15 +517,14 @@ const ActivityCard = ({ act, dayIndex, eventIndex, fullData }) => {
 
   // --- 樣式設定 (不變) ---
   let Icon = MapPin;
-  if (act.type === 'flight') { Icon = Plane; }
-  if (act.type === 'food') { Icon = Utensils; }
-  if (act.type === 'stay') { Icon = Home; }
-  if (act.type === 'transport') { Icon = Train; }
-  if (act.type === 'activity' || act.type === 'sight' || act.type === 'shop') { Icon = Camera; }
-  let style = "border-l-4 border-gray-300 bg-white";
-  if (act.type === 'food') style = "border-l-4 border-orange-400 bg-orange-50";
-  if (act.type === 'stay') style = "border-l-4 border-purple-400 bg-purple-50";
-  // (其他樣式... 你可以自己加返)
+  let style = "border-l-4 border-gray-300 bg-white"; // 預設灰色
+
+  if (act.type === 'flight') { Icon = Plane; style = "border-l-4 border-blue-400 bg-blue-50"; }
+  if (act.type === 'food') { Icon = Utensils; style = "border-l-4 border-orange-400 bg-orange-50"; }
+  if (act.type === 'stay') { Icon = Home; style = "border-l-4 border-purple-400 bg-purple-50"; }
+  if (act.type === 'transport') { Icon = Train; style = "border-l-4 border-green-400 bg-green-50"; }
+  if (act.type === 'activity' || act.type === 'sight' || act.type === 'shop') { Icon = Camera; style = "border-l-4 border-pink-400 bg-pink-50"; }
+  if (act.type === 'aurora') { Icon = Snowflake; style = "border-l-4 border-teal-400 bg-teal-50 shadow-md shadow-teal-100/50"; }
 
   return (
     <div className={`p-4 mb-3 rounded-2xl shadow-sm ${style} relative`}>
@@ -695,7 +717,7 @@ const DayCard = ({ day, dayIndex, fullData }) => {
             <div className="space-y-3">
              {day.events.map((act, i) => (
              <ActivityCard 
-             key={i} 
+             key={`${i}-${act.title}`}  
              act={act} 
              dayIndex={dayIndex}        // 傳入：這是第幾天
              eventIndex={i}             // 傳入：這是當天的第幾個活動 (i 就是 eventIndex)
