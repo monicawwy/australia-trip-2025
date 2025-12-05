@@ -534,26 +534,70 @@ const ActivityCard = ({ act, dayIndex, eventIndex, fullData }) => {
       </button>
 
       {isEditing ? (
-        // === ✨ 全功能編輯模式 ✨ ===
+        // === ✨ 全功能編輯模式 (更新版) ✨ ===
         <div className="space-y-3 animate-fadeIn">
-          <div className="text-xs font-bold text-gray-400">編輯活動</div>
+          <div className="text-xs font-bold text-gray-400 flex justify-between items-center">
+            <span>編輯活動</span>
+            <span className="text-[10px] bg-gray-100 px-1 rounded">Mode: Editing</span>
+          </div>
 
-          {/* 時間、類型、標題 */}
+          {/* 第一行：時間、類型、標題 */}
           <div className="flex gap-2">
-            <input className="w-1/3 p-2 rounded border text-sm" value={editData.time} onChange={e => setEditData({...editData, time: e.target.value})} />
-            <select className="w-2/3 p-2 rounded border text-sm bg-white" value={editData.type} onChange={e => setEditData({...editData, type: e.target.value})}>
+            <input 
+              className="w-1/3 p-2 rounded border text-sm focus:outline-pink-400 transition-colors" 
+              value={editData.time} 
+              onChange={e => setEditData({...editData, time: e.target.value})} 
+              placeholder="時間"
+            />
+            <select 
+              className="w-2/3 p-2 rounded border text-sm bg-white focus:outline-pink-400" 
+              value={editData.type} 
+              onChange={e => setEditData({...editData, type: e.target.value})}
+            >
               <option value="sight">📸 景點</option>
               <option value="food">🍴 餐廳</option>
               <option value="shop">🛍️ 購物</option>
               <option value="transport">🚆 交通</option>
               <option value="stay">🏨 住宿</option>
+              <option value="activity">🎢 活動</option>
             </select>
           </div>
-          <input placeholder="標題" className="w-full p-2 rounded border text-sm font-bold" value={editData.title} onChange={e => setEditData({...editData, title: e.target.value})} />
           
-          {/* 描述 & 導航 */}
-          <textarea placeholder="詳細描述" className="w-full p-2 rounded border text-sm h-20" value={editData.desc} onChange={e => setEditData({...editData, desc: e.target.value})} />
-          <input placeholder="導航地址" className="w-full p-2 rounded border text-sm bg-blue-50" value={editData.nav} onChange={e => setEditData({...editData, nav: e.target.value})} />
+          <input 
+            placeholder="活動標題" 
+            className="w-full p-2 rounded border text-sm font-bold focus:outline-pink-400" 
+            value={editData.title} 
+            onChange={e => setEditData({...editData, title: e.target.value})} 
+          />
+          
+          {/* --- ✨ 新增：Highlight (亮點/提示) --- */}
+          <input 
+            placeholder="✨ 亮點 / 提示 (例如: 必食 / 需預約)" 
+            className="w-full p-2 rounded border text-sm text-red-500 placeholder-red-200 focus:outline-red-300 bg-red-50/30" 
+            value={editData.highlight || ''} // 防止 undefined
+            onChange={e => setEditData({...editData, highlight: e.target.value})} 
+          />
+
+          {/* 描述 */}
+          <textarea 
+            placeholder="詳細描述" 
+            className="w-full p-2 rounded border text-sm h-20 focus:outline-pink-400" 
+            value={editData.desc} 
+            onChange={e => setEditData({...editData, desc: e.target.value})} 
+          />
+
+          {/* --- ✨ 更新：導航地址 (加 Icon) --- */}
+          <div className="relative">
+            <div className="absolute left-3 top-1/2 -translate-y-1/2 text-blue-400">
+              <MapPin size={14} />
+            </div>
+            <input 
+              placeholder="Google Map 地址 / 座標" 
+              className="w-full p-2 pl-9 rounded border text-sm bg-blue-50 focus:outline-blue-400 text-blue-800 placeholder-blue-300" 
+              value={editData.nav || ''} 
+              onChange={e => setEditData({...editData, nav: e.target.value})} 
+            />
+          </div>
 
           {/* 檔案上傳 */}
           <div className="flex items-center gap-2 bg-gray-50 p-2 rounded border border-dashed">
